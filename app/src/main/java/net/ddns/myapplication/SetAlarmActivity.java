@@ -20,6 +20,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import net.ddns.myapplication.table.NormalAlarm;
+
 import org.w3c.dom.Text;
 
 import java.sql.Date;
@@ -47,14 +49,21 @@ public class SetAlarmActivity extends AppCompatActivity {
     Switch switchAlarmAgain;
     Button btnAlarmDelete;
     Button btnAlarmSave;
+    AlarmDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_alarm);
 
-//        String test = (String) getIntent().getSerializableExtra("test");
-//        Toast.makeText(getApplicationContext(), test, Toast.LENGTH_SHORT).show();
+        db = AlarmDatabase.getAppDatabase(this);
+//        //UI 갱신 (라이브데이터 Observer 이용, 해당 디비값이 변화가생기면 실행됨)
+//        db.normalAlarmDao().getAll().observe(this, new Observer<List<NormalAlarm>>() {
+//            @Override
+//            public void onChanged(List<NormalAlarm> normalAlarms) {
+//                view.setText(normalAlarms.toString());
+//            }
+//        });
 
         findId();
         setDefaultTime();
@@ -104,14 +113,17 @@ public class SetAlarmActivity extends AppCompatActivity {
     }
 
     private void setListener(){
-        backBtn.setOnClickListener(backBtnClickListener);
-        btnAlarmSave.setOnClickListener(btnAlarmSaveClickListener);
-        tpSelectTime.setOnTimeChangedListener(tpSelectTimeTimeChangedListener);
-
-        llAlarmTitle.setOnClickListener(llAlarmTitleClickListener);
+        backBtn.setOnClickListener(clickListener);
+        btnAlarmSave.setOnClickListener(clickListener);
+        btnAlarmDelete.setOnClickListener(clickListener);
+        llAlarmTitle.setOnClickListener(clickListener);
+        llAlarmSound.setOnClickListener(clickListener);
+        llAlarmVibration.setOnClickListener(clickListener);
+        llAlarmAgain.setOnClickListener(clickListener);
+        tpSelectTime.setOnTimeChangedListener(timeChangedListener);
 
         for(int i = 0; i < tbtnWeek.length; i++){
-            tbtnWeek[i].setOnCheckedChangeListener(tbtnWeekCheckedChangeListener);
+            tbtnWeek[i].setOnCheckedChangeListener(checkedChangeListener);
         }
     }
 
@@ -140,21 +152,66 @@ public class SetAlarmActivity extends AppCompatActivity {
     }
 
     //    ===Listener===
-    View.OnClickListener backBtnClickListener = new View.OnClickListener() {
+    View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            finish();
+            switch(v.getId()){
+                case R.id.img_btn_back:
+                    finish();
+                    break;
+                case R.id.btn_alarm_delete:
+                    finish();
+                    break;
+                case R.id.btn_alarm_save:
+//                    //DB에 데이터 INSERT
+//                    if(txtvAlarmTitle.getText().toString().trim().length() <= 0) {
+//                        Toast.makeText(getApplicationContext(), "no title", Toast.LENGTH_SHORT).show();
+//                    }else{
+//                        new InsertAsyncTask (db.normalAlarmDao()).execute(new NormalAlarm(txtvAlarmTitle.getText().toString().trim(), "time", 1));
+//                    }
+                    break;
+                case R.id.ll_alarm_title:
+                    final EditText editText = new EditText(getApplicationContext());
+                    editText.setText(txtvAlarmTitle.getText().toString().equals(getResources().getString(R.string.default_sel)) ? null : txtvAlarmTitle.getText().toString());
+                    AlertDialog.Builder setTitleDialog = new AlertDialog.Builder(SetAlarmActivity.this);
+                    setTitleDialog.setTitle(getResources().getString(R.string.alarm_title));
+                    setTitleDialog.setView(editText);
+                    setTitleDialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(editText.getText().toString().equals("")){
+                                txtvAlarmTitle.setText(getResources().getString(R.string.default_sel));
+                                Toast.makeText(getApplicationContext(), "알람 제목을 설정하기 않았습니다.", Toast.LENGTH_SHORT).show();
+                            }else{
+                                txtvAlarmTitle.setText(editText.getText().toString());
+                            }
+                        }
+                    });
+                    setTitleDialog.show();
+                    break;
+                case R.id.ll_alarm_sound:
+                    //DB 데이터 불러오기 (SELECT)
+                    String sel = db.normalAlarmDao().getAllNormalAlarm().toString();
+                    Log.d("===good===", sel);
+                    break;
+                case R.id.ll_alarm_vibration:
+
+                    break;
+                case R.id.ll_alarm_again:
+
+                    break;
+            }
         }
     };
 
-    TimePicker.OnTimeChangedListener tpSelectTimeTimeChangedListener = new TimePicker.OnTimeChangedListener(){
+    TimePicker.OnTimeChangedListener timeChangedListener = new TimePicker.OnTimeChangedListener(){
         @Override
         public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
             txtvTime.setText( convTimeToString(hourOfDay, minute) );
         }
     };
 
-    CompoundButton.OnCheckedChangeListener tbtnWeekCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+    CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(buttonView.getText().equals(getResources().getString(R.string.sun)) && !isChecked){
@@ -169,36 +226,6 @@ public class SetAlarmActivity extends AppCompatActivity {
             }
 
             txtvWeek.setText(convWeekInfo());
-        }
-    };
-
-    View.OnClickListener btnAlarmSaveClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-
-    View.OnClickListener llAlarmTitleClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            final EditText editText = new EditText(getApplicationContext());
-            editText.setText(txtvAlarmTitle.getText().toString().equals(getResources().getString(R.string.default_sel)) ? null : txtvAlarmTitle.getText().toString());
-            AlertDialog.Builder setTitleDialog = new AlertDialog.Builder(SetAlarmActivity.this);
-            setTitleDialog.setTitle(getResources().getString(R.string.alarm_title));
-            setTitleDialog.setView(editText);
-            setTitleDialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if(editText.getText().toString().equals("")){
-                        txtvAlarmTitle.setText(getResources().getString(R.string.default_sel));
-                        Toast.makeText(getApplicationContext(), "알람 제목을 설정하기 않았습니다.", Toast.LENGTH_SHORT).show();
-                    }else{
-                        txtvAlarmTitle.setText(editText.getText().toString());
-                    }
-                }
-            });
-            setTitleDialog.show();
         }
     };
 }

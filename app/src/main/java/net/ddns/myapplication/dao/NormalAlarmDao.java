@@ -12,8 +12,8 @@ import java.util.List;
 
 @Dao
 public interface NormalAlarmDao {
-    @Query("SELECT * FROM NormalAlarm")
-    List<NormalAlarm> getAll();
+    @Query("SELECT * FROM NormalAlarm ORDER BY id DESC")
+    List<NormalAlarm> getAllNormalAlarm();
 
     @Insert
     void insert(NormalAlarm normalAlarm);
