@@ -3,7 +3,7 @@ package net.ddns.myapplication.table;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "normal_alarm")
 public class NormalAlarm {
     @PrimaryKey(autoGenerate = true)
     private int id;

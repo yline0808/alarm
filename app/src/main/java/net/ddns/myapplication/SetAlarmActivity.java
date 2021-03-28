@@ -1,14 +1,20 @@
 package net.ddns.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -28,6 +34,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class SetAlarmActivity extends AppCompatActivity {
     ImageButton backBtn;
@@ -57,6 +64,7 @@ public class SetAlarmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_set_alarm);
 
         db = AlarmDatabase.getAppDatabase(this);
+
 //        //UI 갱신 (라이브데이터 Observer 이용, 해당 디비값이 변화가생기면 실행됨)
 //        db.normalAlarmDao().getAll().observe(this, new Observer<List<NormalAlarm>>() {
 //            @Override
@@ -151,6 +159,33 @@ public class SetAlarmActivity extends AppCompatActivity {
         return weekInfo;
     }
 
+    private String[] getAllMp3Path(){
+        String[] resultPath = null;
+        // 외장 메모리 접근 권한을 가지고 있는지 확인. ( Marshmallow 이상 )  // mAcitivity == Main Activity
+        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            String selectionMimeType = MediaStore.Files.FileColumns.MIME_TYPE + "=?";
+            // 찾고자하는 파일 확장자명.
+            String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp3");
+
+            String[] selectionArgsMp3 = new String[]{mimeType};
+
+            Cursor c = getContentResolver().query(
+                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    new String[]{MediaStore.Audio.Media.DATA}, selectionMimeType, selectionArgsMp3, null);
+
+            if (c.getCount() == 0)
+                return null;
+
+            resultPath = new String[c.getCount()];
+            while (c.moveToNext()) {
+                // 경로 데이터 셋팅.
+                resultPath[c.getPosition()] = c.getString(c.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+                Log.d("===TAG", resultPath[c.getPosition()]);
+            }
+        }
+        return resultPath;
+    }
+
     //    ===Listener===
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
@@ -183,6 +218,14 @@ public class SetAlarmActivity extends AppCompatActivity {
                                 txtvAlarmTitle.setText(getResources().getString(R.string.default_sel));
                                 Toast.makeText(getApplicationContext(), "알람 제목을 설정하기 않았습니다.", Toast.LENGTH_SHORT).show();
                             }else{
+                                new InsertAsyncTask(db.normalAlarmDao()).execute(
+                                        new NormalAlarm(
+                                                editText.getText().toString(),
+                                                convTimeToString(tpSelectTime.getCurrentHour(), tpSelectTime.getCurrentMinute()),
+                                                11
+                                        )
+                                );
+
                                 txtvAlarmTitle.setText(editText.getText().toString());
                             }
                         }
@@ -190,9 +233,13 @@ public class SetAlarmActivity extends AppCompatActivity {
                     setTitleDialog.show();
                     break;
                 case R.id.ll_alarm_sound:
-                    //DB 데이터 불러오기 (SELECT)
-                    String sel = db.normalAlarmDao().getAllNormalAlarm().toString();
-                    Log.d("===good===", sel);
+//                    String[] allMp3Path = getAllMp3Path();
+//                    String test = "";
+//                    for(int i = 0; i < allMp3Path.length; i++){
+//                        test += allMp3Path[i] + "\n";
+//                    }
+//                    Log.d("===mp3path", test);
+
                     break;
                 case R.id.ll_alarm_vibration:
 
