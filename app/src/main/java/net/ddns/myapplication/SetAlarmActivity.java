@@ -10,7 +10,13 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +40,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SetAlarmActivity extends AppCompatActivity {
     ImageButton backBtn;
@@ -57,7 +65,8 @@ public class SetAlarmActivity extends AppCompatActivity {
     Button btnAlarmDelete;
     Button btnAlarmSave;
     AlarmDatabase db;
-
+    MediaPlayer mediaPlayer = new MediaPlayer();
+    int mediaId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +106,7 @@ public class SetAlarmActivity extends AppCompatActivity {
         llAlarmTitle = (LinearLayout)findViewById(R.id.ll_alarm_title);
         llAlarmSound = (LinearLayout)findViewById(R.id.ll_alarm_sound);
         llAlarmVibration = (LinearLayout)findViewById(R.id.ll_alarm_vibration);
-        llAlarmAgain = (LinearLayout)findViewById(R.id.ll_alarm_vibration);
+        llAlarmAgain = (LinearLayout)findViewById(R.id.ll_alarm_again);
         switchAlarmTitle = (Switch)findViewById(R.id.switch_alarm_title);
         switchAlarmSound = (Switch)findViewById(R.id.switch_alarm_sound);
         switchAlarmVibration = (Switch)findViewById(R.id.switch_alarm_vibration);
@@ -186,6 +195,22 @@ public class SetAlarmActivity extends AppCompatActivity {
         return resultPath;
     }
 
+    public Map<String, String> getNotifications() {
+        RingtoneManager manager = new RingtoneManager(this);
+        manager.setType(RingtoneManager.TYPE_RINGTONE);
+        Cursor cursor = manager.getCursor();
+
+        Map<String, String> list = new HashMap<>();
+        while (cursor.moveToNext()) {
+            String notificationTitle = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX);
+            String notificationUri = cursor.getString(RingtoneManager.URI_COLUMN_INDEX) + "/" + cursor.getString(RingtoneManager.ID_COLUMN_INDEX);
+            Log.d("song!!!", notificationTitle + ":::" + notificationUri);
+            list.put(notificationTitle, notificationUri);
+        }
+
+        return list;
+    }
+
     //    ===Listener===
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
@@ -233,19 +258,44 @@ public class SetAlarmActivity extends AppCompatActivity {
                     setTitleDialog.show();
                     break;
                 case R.id.ll_alarm_sound:
-//                    String[] allMp3Path = getAllMp3Path();
-//                    String test = "";
-//                    for(int i = 0; i < allMp3Path.length; i++){
-//                        test += allMp3Path[i] + "\n";
-//                    }
-//                    Log.d("===mp3path", test);
+                    Map<String, String> list = getNotifications();
 
+
+
+//                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+//                    Log.d("___test", notification.getPath());
+//
+//                    try{
+//                        mediaPlayer.setDataSource(getApplicationContext(), notification);
+//                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
+//                        mediaPlayer.setLooping(true);
+//                        mediaPlayer.prepare();
+//                    }catch(Exception e){
+//                        Log.e("media_error", e.toString());
+//                    }
+//
+//                    Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
+//                    Log.d("___testsound", ringtone.toString());
+//                    ringtone.play();
                     break;
                 case R.id.ll_alarm_vibration:
+                    Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                    vibrator.vibrate(500);
 
                     break;
                 case R.id.ll_alarm_again:
-
+                    Log.d("___testagain", mediaPlayer.isPlaying() + "");
+//                    try{
+//                        if(mediaPlayer != null && mediaPlayer.isPlaying()){
+//                            Log.d("test!!!!", "stop");
+//                            mediaPlayer.stop();
+//                        }
+//                        mediaPlayer.pause();
+//                        mediaPlayer.release();
+//                        mediaPlayer = null;
+//                    }catch(Exception e){
+//                        Log.e("media stop error", e.toString());
+//                    }
                     break;
             }
         }
