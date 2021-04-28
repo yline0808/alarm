@@ -66,6 +66,7 @@ public class SetAlarmActivity extends AppCompatActivity {
     Button btnAlarmSave;
     AlarmDatabase db;
     MediaPlayer mediaPlayer = new MediaPlayer();
+    Ringtone ringtone;
     int mediaId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,31 +261,43 @@ public class SetAlarmActivity extends AppCompatActivity {
                 case R.id.ll_alarm_sound:
                     Map<String, String> list = getNotifications();
 
+                    if(ringtone != null && ringtone.isPlaying()){
+                        Log.d("playing!!!ringtone", ringtone.isPlaying()+"");
+                        break;
+                    }
 
+                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                    Log.d("___test", notification.getPath());
 
-//                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-//                    Log.d("___test", notification.getPath());
-//
-//                    try{
-//                        mediaPlayer.setDataSource(getApplicationContext(), notification);
-//                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
-//                        mediaPlayer.setLooping(true);
-//                        mediaPlayer.prepare();
-//                    }catch(Exception e){
-//                        Log.e("media_error", e.toString());
-//                    }
-//
-//                    Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
-//                    Log.d("___testsound", ringtone.toString());
-//                    ringtone.play();
+                    try{
+                        mediaPlayer.setDataSource(getApplicationContext(), notification);
+                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
+                        mediaPlayer.setLooping(true);
+                        mediaPlayer.prepare();
+                    }catch(Exception e){
+                        Log.e("media_error", e.toString());
+                    }
+
+                    ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                    Log.d("___testsound", ringtone.toString());
+                    ringtone.play();
+//                    ringtone.stop();
                     break;
                 case R.id.ll_alarm_vibration:
                     Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                     vibrator.vibrate(500);
-
+                    Toast.makeText(getApplicationContext(), "stop alarm", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.ll_alarm_again:
-                    Log.d("___testagain", mediaPlayer.isPlaying() + "");
+                    if(ringtone != null && ringtone.isPlaying()){
+                        Log.d("playing!!!ringtone", ringtone.isPlaying()+"");
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                        ringtone.stop();
+                    }
+
+
+
 //                    try{
 //                        if(mediaPlayer != null && mediaPlayer.isPlaying()){
 //                            Log.d("test!!!!", "stop");
