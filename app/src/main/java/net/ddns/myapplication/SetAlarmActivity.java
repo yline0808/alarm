@@ -7,6 +7,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -67,7 +68,8 @@ public class SetAlarmActivity extends AppCompatActivity {
     AlarmDatabase db;
     MediaPlayer mediaPlayer = new MediaPlayer();
     Ringtone ringtone;
-    int mediaId;
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -259,34 +261,12 @@ public class SetAlarmActivity extends AppCompatActivity {
                     setTitleDialog.show();
                     break;
                 case R.id.ll_alarm_sound:
-                    Map<String, String> list = getNotifications();
-
-                    if(ringtone != null && ringtone.isPlaying()){
-                        Log.d("playing!!!ringtone", ringtone.isPlaying()+"");
-                        break;
-                    }
-
-                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-                    Log.d("___test", notification.getPath());
-
-                    try{
-                        mediaPlayer.setDataSource(getApplicationContext(), notification);
-                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
-                        mediaPlayer.setLooping(true);
-                        mediaPlayer.prepare();
-                    }catch(Exception e){
-                        Log.e("media_error", e.toString());
-                    }
-
-                    ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                    Log.d("___testsound", ringtone.toString());
-                    ringtone.play();
-//                    ringtone.stop();
+                    intent = new Intent(getApplicationContext(), SoundSelectActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.ll_alarm_vibration:
                     Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                     vibrator.vibrate(500);
-                    Toast.makeText(getApplicationContext(), "stop alarm", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.ll_alarm_again:
                     if(ringtone != null && ringtone.isPlaying()){
