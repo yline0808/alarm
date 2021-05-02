@@ -1,11 +1,11 @@
 package net.ddns.myapplication.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +17,7 @@ import net.ddns.myapplication.R;
 
 import java.util.ArrayList;
 
-public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.SoundListViewHolder> {
+public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.SoundListViewHolder> implements Filterable {
     ArrayList<String> arrayList;
     private static int lastCheckedPos = -1;
 
@@ -42,13 +42,26 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.Soun
         String text = arrayList.get(position);
         holder.textView.setText(text);
         holder.radioButton.setChecked(lastCheckedPos == position);
-
-        Log.d("test!!!", holder.radioButton.isChecked() + "," + position + "," + lastCheckedPos);
     }
 
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                return null;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public void setArrayList(String strData){

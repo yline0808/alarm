@@ -198,22 +198,6 @@ public class SetAlarmActivity extends AppCompatActivity {
         return resultPath;
     }
 
-    public Map<String, String> getNotifications() {
-        RingtoneManager manager = new RingtoneManager(this);
-        manager.setType(RingtoneManager.TYPE_RINGTONE);
-        Cursor cursor = manager.getCursor();
-
-        Map<String, String> list = new HashMap<>();
-        while (cursor.moveToNext()) {
-            String notificationTitle = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX);
-            String notificationUri = cursor.getString(RingtoneManager.URI_COLUMN_INDEX) + "/" + cursor.getString(RingtoneManager.ID_COLUMN_INDEX);
-            Log.d("song!!!", notificationTitle + ":::" + notificationUri);
-            list.put(notificationTitle, notificationUri);
-        }
-
-        return list;
-    }
-
     //    ===Listener===
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
