@@ -65,25 +65,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findId(){
-        tabhost = (TabHost) findViewById(R.id.tabhost);
-        imgbtnAddAlarm = (ImageButton) findViewById(R.id.addAlarm);
+        tabhost = (TabHost) findViewById(R.id.tabHostMain);
+        imgbtnAddAlarm = (ImageButton) findViewById(R.id.imgBtnAddAlarm);
     }
 
     private void setTabhost(){
         tabhost.setup();
 
         TabHost.TabSpec ts1 = tabhost.newTabSpec(getString(R.string.tab1));
-        ts1.setContent(R.id.tab1);
+        ts1.setContent(R.id.llNormalAlarmTab);
         ts1.setIndicator(getString(R.string.tab1));
         tabhost.addTab(ts1);
 
         TabHost.TabSpec ts2 = tabhost.newTabSpec(getString(R.string.tab2));
-        ts2.setContent(R.id.tab2);
+        ts2.setContent(R.id.llLocationAlarmTab);
         ts2.setIndicator(getString(R.string.tab2));
         tabhost.addTab(ts2);
 
         TabHost.TabSpec ts3 = tabhost.newTabSpec(getString(R.string.tab3));
-        ts3.setContent(R.id.tab3);
+        ts3.setContent(R.id.llCallAlarmTab);
         ts3.setIndicator(getString(R.string.tab3));
         tabhost.addTab(ts3);
 

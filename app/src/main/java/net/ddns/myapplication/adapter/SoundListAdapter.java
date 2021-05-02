@@ -14,16 +14,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.ddns.myapplication.R;
+import net.ddns.myapplication.table.Song;
 
 import java.util.ArrayList;
 
 public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.SoundListViewHolder> implements Filterable {
-    ArrayList<String> arrayList;
+    ArrayList<Song> songs;
+    ArrayList<Song> songsAll;
     private static int lastCheckedPos = -1;
 
-    public SoundListAdapter() {
-        this.arrayList = new ArrayList<>();
+    public SoundListAdapter(ArrayList<Song> songs) {
+        this.songs = songs;
+        this.songsAll = new ArrayList<>(songs);
     }
+
+    private onSongListener mListener;
+    public void setOnClickListener(onSongListener listener){
+        mListener = listener;
+    }
+
+//    public void dataSetChanged(ArrayList<Song> exampleList){
+//        songs = exampleList;
+//        notifyDataSetChanged();
+//    }
 
     @NonNull
     @Override
@@ -39,14 +52,14 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.Soun
 
     @Override
     public void onBindViewHolder(@NonNull SoundListViewHolder holder, int position) {
-        String text = arrayList.get(position);
+        String text = songs.get(position).getTitle();
         holder.textView.setText(text);
         holder.radioButton.setChecked(lastCheckedPos == position);
     }
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return songs.size();
     }
 
     @Override
@@ -54,18 +67,32 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.Soun
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                return null;
+                ArrayList<Song> filteredSongs = new ArrayList<>();
+
+                if(constraint == null || constraint.length() == 0){
+                    filteredSongs.addAll(songsAll);
+                }else{
+                    String filterPattern = constraint.toString().toLowerCase().trim();
+                    for(Song song:songsAll){
+                        if(song.getTitle().toLowerCase().contains(filterPattern)){
+                            filteredSongs.add(song);
+                        }
+                    }
+                }
+
+                FilterResults results = new FilterResults();
+                results.values = filteredSongs;
+
+                return results;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
+                songs.clear();
+                songs.addAll((ArrayList) results.values);
                 notifyDataSetChanged();
             }
         };
-    }
-
-    public void setArrayList(String strData){
-        arrayList.add(strData);
     }
 
     public class SoundListViewHolder extends RecyclerView.ViewHolder {
@@ -91,5 +118,9 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.Soun
                 }
             });
         }
+    }
+
+    public interface onSongListener{
+        void onSongClicked(int position);
     }
 }

@@ -96,7 +96,7 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/addAlarm"
+        android:id="@+id/imgBtnAddAlarm"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:scaleType="fitXY"

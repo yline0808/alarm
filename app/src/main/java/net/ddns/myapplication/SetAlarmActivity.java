@@ -91,31 +91,31 @@ public class SetAlarmActivity extends AppCompatActivity {
     }
 
     private void findId(){
-        backBtn = (ImageButton)findViewById(R.id.img_btn_back);
-        txtvTime = (TextView)findViewById(R.id.txtv_time);
-        txtvWeek = (TextView)findViewById(R.id.txtv_week);
-        txtvAlarmTitle = (TextView)findViewById(R.id.txtv_alarm_title);
-        txtvAlarmSound = (TextView)findViewById(R.id.txtv_alarm_sound);
-        txtvAlarmVibration = (TextView)findViewById(R.id.txtv_alarm_vibration);
-        txtvAlarmAgain = (TextView)findViewById(R.id.txtv_alarm_again);
-        tpSelectTime = (TimePicker)findViewById(R.id.tp_select_time);
-        tbtnWeek[0] = (ToggleButton)findViewById(R.id.tbtn_sun);
-        tbtnWeek[1] = (ToggleButton)findViewById(R.id.tbtn_mon);
-        tbtnWeek[2] = (ToggleButton)findViewById(R.id.tbtn_tue);
-        tbtnWeek[3] = (ToggleButton)findViewById(R.id.tbtn_wed);
-        tbtnWeek[4] = (ToggleButton)findViewById(R.id.tbtn_thu);
-        tbtnWeek[5] = (ToggleButton)findViewById(R.id.tbtn_fri);
-        tbtnWeek[6] = (ToggleButton)findViewById(R.id.tbtn_sat);
-        llAlarmTitle = (LinearLayout)findViewById(R.id.ll_alarm_title);
-        llAlarmSound = (LinearLayout)findViewById(R.id.ll_alarm_sound);
-        llAlarmVibration = (LinearLayout)findViewById(R.id.ll_alarm_vibration);
-        llAlarmAgain = (LinearLayout)findViewById(R.id.ll_alarm_again);
-        switchAlarmTitle = (Switch)findViewById(R.id.switch_alarm_title);
-        switchAlarmSound = (Switch)findViewById(R.id.switch_alarm_sound);
-        switchAlarmVibration = (Switch)findViewById(R.id.switch_alarm_vibration);
-        switchAlarmAgain = (Switch)findViewById(R.id.switch_alarm_again);
-        btnAlarmDelete = (Button)findViewById(R.id.btn_alarm_delete);
-        btnAlarmSave = (Button)findViewById(R.id.btn_alarm_save);
+        backBtn = (ImageButton)findViewById(R.id.imgBtnBack);
+        txtvTime = (TextView)findViewById(R.id.txtvTime);
+        txtvWeek = (TextView)findViewById(R.id.txtvWeek);
+        txtvAlarmTitle = (TextView)findViewById(R.id.txtvAlarmTitle);
+        txtvAlarmSound = (TextView)findViewById(R.id.txtvAlarmSound);
+        txtvAlarmVibration = (TextView)findViewById(R.id.txtvAlarmVibration);
+        txtvAlarmAgain = (TextView)findViewById(R.id.txtvAlarmAgain);
+        tpSelectTime = (TimePicker)findViewById(R.id.tpSelectTime);
+        tbtnWeek[0] = (ToggleButton)findViewById(R.id.tbtnSun);
+        tbtnWeek[1] = (ToggleButton)findViewById(R.id.tbtnMon);
+        tbtnWeek[2] = (ToggleButton)findViewById(R.id.tbtnTue);
+        tbtnWeek[3] = (ToggleButton)findViewById(R.id.tbtnWed);
+        tbtnWeek[4] = (ToggleButton)findViewById(R.id.tbtnThu);
+        tbtnWeek[5] = (ToggleButton)findViewById(R.id.tbtnFri);
+        tbtnWeek[6] = (ToggleButton)findViewById(R.id.tbtnSat);
+        llAlarmTitle = (LinearLayout)findViewById(R.id.llAlarmTitle);
+        llAlarmSound = (LinearLayout)findViewById(R.id.llAlarmSound);
+        llAlarmVibration = (LinearLayout)findViewById(R.id.llAlarmVibration);
+        llAlarmAgain = (LinearLayout)findViewById(R.id.llAlarmAgain);
+        switchAlarmTitle = (Switch)findViewById(R.id.switchAlarmTitle);
+        switchAlarmSound = (Switch)findViewById(R.id.switchAlarmSound);
+        switchAlarmVibration = (Switch)findViewById(R.id.switchAlarmVibration);
+        switchAlarmAgain = (Switch)findViewById(R.id.switchAlarmAgain);
+        btnAlarmDelete = (Button)findViewById(R.id.btnAlarmDelete);
+        btnAlarmSave = (Button)findViewById(R.id.btnAlarmSave);
     }
 
     private void setDefaultTime(){
@@ -203,13 +203,13 @@ public class SetAlarmActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             switch(v.getId()){
-                case R.id.img_btn_back:
+                case R.id.imgBtnBack:
                     finish();
                     break;
-                case R.id.btn_alarm_delete:
+                case R.id.btnAlarmDelete:
                     finish();
                     break;
-                case R.id.btn_alarm_save:
+                case R.id.btnAlarmSave:
 //                    //DB에 데이터 INSERT
 //                    if(txtvAlarmTitle.getText().toString().trim().length() <= 0) {
 //                        Toast.makeText(getApplicationContext(), "no title", Toast.LENGTH_SHORT).show();
@@ -217,7 +217,7 @@ public class SetAlarmActivity extends AppCompatActivity {
 //                        new InsertAsyncTask (db.normalAlarmDao()).execute(new NormalAlarm(txtvAlarmTitle.getText().toString().trim(), "time", 1));
 //                    }
                     break;
-                case R.id.ll_alarm_title:
+                case R.id.llAlarmTitle:
                     final EditText editText = new EditText(getApplicationContext());
                     editText.setText(txtvAlarmTitle.getText().toString().equals(getResources().getString(R.string.default_sel)) ? null : txtvAlarmTitle.getText().toString());
                     AlertDialog.Builder setTitleDialog = new AlertDialog.Builder(SetAlarmActivity.this);
@@ -244,15 +244,15 @@ public class SetAlarmActivity extends AppCompatActivity {
                     });
                     setTitleDialog.show();
                     break;
-                case R.id.ll_alarm_sound:
+                case R.id.llAlarmSound:
                     intent = new Intent(getApplicationContext(), SoundSelectActivity.class);
                     startActivity(intent);
                     break;
-                case R.id.ll_alarm_vibration:
+                case R.id.llAlarmVibration:
                     Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                     vibrator.vibrate(500);
                     break;
-                case R.id.ll_alarm_again:
+                case R.id.llAlarmAgain:
                     if(ringtone != null && ringtone.isPlaying()){
                         Log.d("playing!!!ringtone", ringtone.isPlaying()+"");
                         mediaPlayer.stop();

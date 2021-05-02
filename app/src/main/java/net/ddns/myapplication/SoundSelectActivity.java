@@ -1,6 +1,7 @@
 package net.ddns.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
@@ -9,7 +10,10 @@ import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 
 import net.ddns.myapplication.adapter.SoundListAdapter;
 import net.ddns.myapplication.table.Song;
@@ -19,7 +23,7 @@ import java.util.ArrayList;
 public class SoundSelectActivity extends AppCompatActivity {
     SearchView searchView;
     RecyclerView recyclerView;
-    SoundListAdapter soundListAdapter = new SoundListAdapter();
+    SoundListAdapter soundListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +41,24 @@ public class SoundSelectActivity extends AppCompatActivity {
     }
 
     private void setListener(){
-        searchView.setOnClickListener(clickListener);
+        searchView.setOnQueryTextListener(queryTextListener);
     }
 
     private void setSoundRecyclerView(ArrayList<Song> defaultSoundList){
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        recyclerView.setHasFixedSize(true);
+        soundListAdapter = new SoundListAdapter(defaultSoundList);
 
-        for(int i = 0; i < defaultSoundList.size(); i++){
-            soundListAdapter.setArrayList(defaultSoundList.get(i).getTitle());
-            Log.d("arrayList!!!", defaultSoundList.get(i).getTitle());
-        }
+//        for(int i = 0; i < defaultSoundList.size(); i++){
+//            soundListAdapter.setArrayList(defaultSoundList.get(i).getTitle());
+//            Log.d("arrayList!!!", defaultSoundList.get(i).getTitle());
+//        }
 
         recyclerView.setAdapter(soundListAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+//        soundListAdapter.setOnClickListener((SoundListAdapter.onSongListener) this);
     }
 
     private ArrayList<Song> getNotifications() {
@@ -68,7 +78,7 @@ public class SoundSelectActivity extends AppCompatActivity {
         return list;
     }
 
-//    private Map<String, String> findDefaultSoundList(){
+    //    private Map<String, String> findDefaultSoundList(){
 //        Map<String, String> list = getNotifications();
 //
 //        if(ringtone != null && ringtone.isPlaying()){
@@ -100,15 +110,22 @@ public class SoundSelectActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.searchView:
-//                    Log.d("searchViewClick!!!", "test");
-//                    ArrayList<Song> strList = new ArrayList<>();
-//                    for(int i = 0; i < 20; i++){
-//                        Song song = new Song("test"+i, "test");
-//                        strList.add(song);
-//                    }
-//                    setSoundRecyclerView(strList);
+
                     break;
             }
+        }
+    };
+
+    SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            soundListAdapter.getFilter().filter(newText);
+            return false;
         }
     };
 }
