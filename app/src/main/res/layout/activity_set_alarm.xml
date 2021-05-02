@@ -53,8 +53,9 @@
     <TimePicker
         android:id="@+id/tpSelectTime"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:timePickerMode="spinner"/>
+        android:layout_height="200dp"
+        android:timePickerMode="spinner"
+        android:background="@color/time_picker"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -202,44 +203,57 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:layout_height="90dp"
+                android:orientation="vertical"
                 android:layout_margin="8dp">
 
                 <LinearLayout
-                    android:id="@+id/llAlarmSound"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/llAlarmSound"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/alarm_sound"
-                        android:textSize="10pt"
-                        android:textColor="@color/black"/>
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtvAlarmSound"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/alarm_sound"
+                            android:textSize="10pt"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/txtvAlarmSound"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/default_sel"
+                            android:textColor="@color/text_main"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0.3dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/txt_deactivate_1"
+                        android:layout_margin="8dp"/>
+
+                    <Switch
+                        android:id="@+id/switchAlarmSound"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/default_sel"
-                        android:textColor="@color/text_main"/>
+                        android:layout_height="match_parent"/>
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="0.3dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/txt_deactivate_1"
-                    android:layout_margin="8dp"/>
-
-                <Switch
-                    android:id="@+id/switchAlarmSound"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                <SeekBar
+                    android:id="@+id/seekBarSound"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:progress="70"/>
 
             </LinearLayout>
 
@@ -250,44 +264,57 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:layout_height="90dp"
+                android:orientation="vertical"
                 android:layout_margin="8dp">
 
                 <LinearLayout
-                    android:id="@+id/llAlarmVibration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/llAlarmVibration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/alarm_vibration"
-                        android:textSize="10pt"
-                        android:textColor="@color/black"/>
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtvAlarmVibration"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/alarm_vibration"
+                            android:textSize="10pt"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/txtvAlarmVibration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/default_sel"
+                            android:textColor="@color/text_main"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0.3dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/txt_deactivate_1"
+                        android:layout_margin="8dp"/>
+
+                    <Switch
+                        android:id="@+id/switchAlarmVibration"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/default_sel"
-                        android:textColor="@color/text_main"/>
+                        android:layout_height="match_parent"/>
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="0.3dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/txt_deactivate_1"
-                    android:layout_margin="8dp"/>
-
-                <Switch
-                    android:id="@+id/switchAlarmVibration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                <SeekBar
+                    android:id="@+id/seekBarVibration"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:progress="70"/>
 
             </LinearLayout>
 

@@ -1,6 +1,9 @@
 package net.ddns.myapplication.adapter;
 
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,20 +26,20 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.Soun
     ArrayList<Song> songsAll;
     private static int lastCheckedPos = -1;
 
+    private OnItemClickListener mListener = null;
+
     public SoundListAdapter(ArrayList<Song> songs) {
         this.songs = songs;
         this.songsAll = new ArrayList<>(songs);
     }
 
-    private onSongListener mListener;
-    public void setOnClickListener(onSongListener listener){
-        mListener = listener;
+    public interface OnItemClickListener{
+        void onItemClick(View v, int pos, Song s);
     }
 
-//    public void dataSetChanged(ArrayList<Song> exampleList){
-//        songs = exampleList;
-//        notifyDataSetChanged();
-//    }
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mListener = listener;
+    }
 
     @NonNull
     @Override
@@ -100,6 +103,8 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.Soun
         public RadioButton radioButton;
         public View itemView;
 
+        Song selSong = new Song();
+
         public SoundListViewHolder(Context context, View itemView){
             super(itemView);
             this.itemView = itemView;
@@ -113,14 +118,13 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.Soun
                     lastCheckedPos = getAdapterPosition();
                     notifyDataSetChanged();
                     radioButton.setChecked(true);
-                    String strText = textView.getText().toString();
-                    Toast.makeText(context, strText, Toast.LENGTH_SHORT).show();
+                    selSong = songs.get(lastCheckedPos);
+
+                    if(mListener != null){
+                        mListener.onItemClick(v, lastCheckedPos, selSong);
+                    }
                 }
             });
         }
-    }
-
-    public interface onSongListener{
-        void onSongClicked(int position);
     }
 }

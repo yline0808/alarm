@@ -1,5 +1,6 @@
 package net.ddns.myapplication;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -34,6 +35,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import net.ddns.myapplication.table.NormalAlarm;
+import net.ddns.myapplication.table.Song;
 
 import org.w3c.dom.Text;
 
@@ -68,7 +70,7 @@ public class SetAlarmActivity extends AppCompatActivity {
     AlarmDatabase db;
     MediaPlayer mediaPlayer = new MediaPlayer();
     Ringtone ringtone;
-    Intent intent;
+//    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,6 +230,7 @@ public class SetAlarmActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if(editText.getText().toString().equals("")){
                                 txtvAlarmTitle.setText(getResources().getString(R.string.default_sel));
+                                switchAlarmTitle.setChecked(false);
                                 Toast.makeText(getApplicationContext(), "알람 제목을 설정하기 않았습니다.", Toast.LENGTH_SHORT).show();
                             }else{
                                 new InsertAsyncTask(db.normalAlarmDao()).execute(
@@ -239,14 +242,15 @@ public class SetAlarmActivity extends AppCompatActivity {
                                 );
 
                                 txtvAlarmTitle.setText(editText.getText().toString());
+                                switchAlarmTitle.setChecked(true);
                             }
                         }
                     });
                     setTitleDialog.show();
                     break;
                 case R.id.llAlarmSound:
-                    intent = new Intent(getApplicationContext(), SoundSelectActivity.class);
-                    startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), SoundSelectActivity.class);
+                    startActivityForResult(intent, 3000);
                     break;
                 case R.id.llAlarmVibration:
                     Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
@@ -259,20 +263,6 @@ public class SetAlarmActivity extends AppCompatActivity {
                         mediaPlayer.release();
                         ringtone.stop();
                     }
-
-
-
-//                    try{
-//                        if(mediaPlayer != null && mediaPlayer.isPlaying()){
-//                            Log.d("test!!!!", "stop");
-//                            mediaPlayer.stop();
-//                        }
-//                        mediaPlayer.pause();
-//                        mediaPlayer.release();
-//                        mediaPlayer = null;
-//                    }catch(Exception e){
-//                        Log.e("media stop error", e.toString());
-//                    }
                     break;
             }
         }
@@ -302,4 +292,48 @@ public class SetAlarmActivity extends AppCompatActivity {
             txtvWeek.setText(convWeekInfo());
         }
     };
+
+
+//    ===ActivityResult===
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(resultCode){
+            case RESULT_OK:
+                switch(requestCode){
+                    case 3000:
+                        setSoundSelect((Song)data.getSerializableExtra("song"));
+                        break;
+                    case 3001:
+
+                        break;
+                    default:
+
+                        break;
+                }
+                break;
+            case RESULT_CANCELED:
+                Log.d("cancel", "backbtn");
+                break;
+            default:
+                switch(requestCode){
+                    case 3000:
+                        Log.e("requesCode:3000", "sound select error");
+                        break;
+                    case 3001:
+                        Log.e("requesCode:3001", "vibration select error");
+                        break;
+                    default:
+
+                        break;
+                }
+                break;
+        }
+    }
+
+    private void setSoundSelect(Song s){
+        txtvAlarmSound.setText(s.getTitle());
+        switchAlarmSound.setChecked(true);
+    }
 }

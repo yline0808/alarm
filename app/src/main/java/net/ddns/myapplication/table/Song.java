@@ -1,14 +1,17 @@
 package net.ddns.myapplication.table;
 
-public class Song {
+import java.io.Serializable;
+
+public class Song implements Serializable {
     private String title;
     private String uri;
-    private Boolean isSelected;
+
+    public Song() {
+    }
 
     public Song(String title, String uri) {
         this.title = title;
         this.uri = uri;
-        this.isSelected = false;
     }
 
     public String getTitle() {
@@ -27,20 +30,11 @@ public class Song {
         this.uri = uri;
     }
 
-    public Boolean getSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(Boolean selected) {
-        isSelected = selected;
-    }
-
     @Override
     public String toString() {
         return "Song{" +
                 "title='" + title + '\'' +
-                ", uri='" + uri + '\'' +
-                ", isSelected=" + isSelected +
+                ", uri=" + uri +
                 '}';
     }
 }

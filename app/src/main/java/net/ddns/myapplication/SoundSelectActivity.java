@@ -1,19 +1,23 @@
 package net.ddns.myapplication;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.widget.ImageButton;
 
 import net.ddns.myapplication.adapter.SoundListAdapter;
 import net.ddns.myapplication.table.Song;
@@ -23,7 +27,15 @@ import java.util.ArrayList;
 public class SoundSelectActivity extends AppCompatActivity {
     SearchView searchView;
     RecyclerView recyclerView;
+    ImageButton imgBtnBack;
+    ImageButton imgBtnSave;
+
+    Intent intent;
     SoundListAdapter soundListAdapter;
+    MediaPlayer mediaPlayer = new MediaPlayer();
+    Ringtone ringtone;
+
+    Song selectedSong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +43,22 @@ public class SoundSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sound_select);
 
         findId();
-        setListener();
         setSoundRecyclerView(getNotifications());
+        setListener();
     }
 
     private void findId(){
         searchView = (SearchView)findViewById(R.id.searchView);
         recyclerView = (RecyclerView)findViewById(R.id.recyclerViewSound);
+        imgBtnBack = (ImageButton)findViewById(R.id.imgBtnBack);
+        imgBtnSave = (ImageButton)findViewById(R.id.imgBtnSoundSave);
     }
 
     private void setListener(){
         searchView.setOnQueryTextListener(queryTextListener);
+        soundListAdapter.setOnItemClickListener(itemClickListener);
+        imgBtnBack.setOnClickListener(clickListener);
+        imgBtnSave.setOnClickListener(clickListener);
     }
 
     private void setSoundRecyclerView(ArrayList<Song> defaultSoundList){
@@ -49,16 +66,9 @@ public class SoundSelectActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         soundListAdapter = new SoundListAdapter(defaultSoundList);
 
-//        for(int i = 0; i < defaultSoundList.size(); i++){
-//            soundListAdapter.setArrayList(defaultSoundList.get(i).getTitle());
-//            Log.d("arrayList!!!", defaultSoundList.get(i).getTitle());
-//        }
-
         recyclerView.setAdapter(soundListAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
-
-//        soundListAdapter.setOnClickListener((SoundListAdapter.onSongListener) this);
     }
 
     private ArrayList<Song> getNotifications() {
@@ -78,39 +88,29 @@ public class SoundSelectActivity extends AppCompatActivity {
         return list;
     }
 
-    //    private Map<String, String> findDefaultSoundList(){
-//        Map<String, String> list = getNotifications();
-//
-//        if(ringtone != null && ringtone.isPlaying()){
-//            Log.d("playing!!!ringtone", ringtone.isPlaying()+"");
-//            break;
-//        }
-//
-//        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-//        Log.d("___test", notification.getPath());
-//
-//        try{
-//            mediaPlayer.setDataSource(getApplicationContext(), notification);
-//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
-//            mediaPlayer.setLooping(true);
-//            mediaPlayer.prepare();
-//        }catch(Exception e){
-//            Log.e("media_error", e.toString());
-//        }
-//
-//        ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
-//        Log.d("___testsound", ringtone.toString());
-//        ringtone.play();
-//
-//        return list;
-//    }
-
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.searchView:
-
+                case R.id.imgBtnBack:
+                    if(mediaPlayer.isPlaying()){
+                        ringtone.stop();
+                        mediaPlayer.pause();
+                    }
+                    mediaPlayer.release();
+                    setResult(RESULT_CANCELED);
+                    finish();
+                    break;
+                case R.id.imgBtnSoundSave:
+                    if(mediaPlayer.isPlaying()){
+                        ringtone.stop();
+                        mediaPlayer.pause();
+                    }
+                    mediaPlayer.release();
+                    intent = new Intent();
+                    intent.putExtra("song", selectedSong);
+                    setResult(RESULT_OK, intent);
+                    finish();
                     break;
             }
         }
@@ -128,4 +128,34 @@ public class SoundSelectActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    SoundListAdapter.OnItemClickListener itemClickListener = new SoundListAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(View v, int pos, Song s) {
+            try{
+                if(mediaPlayer.isPlaying()){
+                    ringtone.stop();
+                    mediaPlayer.reset();
+                }
+                mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(s.getUri()));
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                ringtone = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(s.getUri()));
+                ringtone.play();
+            }catch(Exception e){
+                mediaPlayer.pause();
+                mediaPlayer.release();
+                mediaPlayer = new MediaPlayer();
+                Log.e("mediaPlay error", e.toString());
+            }
+            selectedSong = s;
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
