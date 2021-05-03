@@ -33,7 +33,6 @@ public class SoundSelectActivity extends AppCompatActivity {
     Intent intent;
     SoundListAdapter soundListAdapter;
     MediaPlayer mediaPlayer = new MediaPlayer();
-    Ringtone ringtone;
 
     Song selectedSong;
 
@@ -94,7 +93,6 @@ public class SoundSelectActivity extends AppCompatActivity {
             switch (v.getId()){
                 case R.id.imgBtnBack:
                     if(mediaPlayer.isPlaying()){
-                        ringtone.stop();
                         mediaPlayer.pause();
                     }
                     mediaPlayer.release();
@@ -103,7 +101,6 @@ public class SoundSelectActivity extends AppCompatActivity {
                     break;
                 case R.id.imgBtnSoundSave:
                     if(mediaPlayer.isPlaying()){
-                        ringtone.stop();
                         mediaPlayer.pause();
                     }
                     mediaPlayer.release();
@@ -134,7 +131,6 @@ public class SoundSelectActivity extends AppCompatActivity {
         public void onItemClick(View v, int pos, Song s) {
             try{
                 if(mediaPlayer.isPlaying()){
-                    ringtone.stop();
                     mediaPlayer.reset();
                 }
                 mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(s.getUri()));
@@ -142,8 +138,6 @@ public class SoundSelectActivity extends AppCompatActivity {
                 mediaPlayer.setLooping(true);
                 mediaPlayer.prepare();
                 mediaPlayer.start();
-                ringtone = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(s.getUri()));
-                ringtone.play();
             }catch(Exception e){
                 mediaPlayer.pause();
                 mediaPlayer.release();

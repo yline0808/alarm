@@ -1,6 +1,7 @@
 package net.ddns.myapplication;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -17,6 +18,7 @@ import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.MediaStore;
@@ -28,6 +30,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -67,10 +70,13 @@ public class SetAlarmActivity extends AppCompatActivity {
     Switch switchAlarmAgain;
     Button btnAlarmDelete;
     Button btnAlarmSave;
+    SeekBar seekBarSound;
+    SeekBar seekBarVibration;
     AlarmDatabase db;
-    MediaPlayer mediaPlayer = new MediaPlayer();
-    Ringtone ringtone;
-//    Intent intent;
+    MediaPlayer mediaPlayer;
+    Intent intent;
+
+    Song selectedSong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +124,11 @@ public class SetAlarmActivity extends AppCompatActivity {
         switchAlarmAgain = (Switch)findViewById(R.id.switchAlarmAgain);
         btnAlarmDelete = (Button)findViewById(R.id.btnAlarmDelete);
         btnAlarmSave = (Button)findViewById(R.id.btnAlarmSave);
+        seekBarSound = (SeekBar)findViewById(R.id.seekBarSound);
+        seekBarVibration = (SeekBar)findViewById(R.id.seekBarVibration);
+
+        seekBarSound.setMax(15);
+        seekBarVibration.setMax(15);
     }
 
     private void setDefaultTime(){
@@ -143,6 +154,7 @@ public class SetAlarmActivity extends AppCompatActivity {
         llAlarmVibration.setOnClickListener(clickListener);
         llAlarmAgain.setOnClickListener(clickListener);
         tpSelectTime.setOnTimeChangedListener(timeChangedListener);
+        seekBarSound.setOnSeekBarChangeListener(seekBarChangeListener);
 
         for(int i = 0; i < tbtnWeek.length; i++){
             tbtnWeek[i].setOnCheckedChangeListener(checkedChangeListener);
@@ -249,7 +261,7 @@ public class SetAlarmActivity extends AppCompatActivity {
                     setTitleDialog.show();
                     break;
                 case R.id.llAlarmSound:
-                    Intent intent = new Intent(getApplicationContext(), SoundSelectActivity.class);
+                    intent = new Intent(getApplicationContext(), SoundSelectActivity.class);
                     startActivityForResult(intent, 3000);
                     break;
                 case R.id.llAlarmVibration:
@@ -257,12 +269,6 @@ public class SetAlarmActivity extends AppCompatActivity {
                     vibrator.vibrate(500);
                     break;
                 case R.id.llAlarmAgain:
-                    if(ringtone != null && ringtone.isPlaying()){
-                        Log.d("playing!!!ringtone", ringtone.isPlaying()+"");
-                        mediaPlayer.stop();
-                        mediaPlayer.release();
-                        ringtone.stop();
-                    }
                     break;
             }
         }
@@ -290,6 +296,71 @@ public class SetAlarmActivity extends AppCompatActivity {
             }
 
             txtvWeek.setText(convWeekInfo());
+        }
+    };
+
+    SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            switch(seekBar.getId()){
+                case R.id.seekBarSound:
+                    Log.d("change!!!", "change");
+                    AudioManager audioManager = (AudioManager)getSystemService(AUDIO_SERVICE);
+                    audioManager.setStreamVolume(AudioManager.STREAM_RING, progress, 0);
+                    break;
+                case R.id.seekBarVibration:
+
+                    break;
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            switch(seekBar.getId()){
+                case R.id.seekBarSound:
+                    Log.d("start!!!", "test");
+                    mediaPlayer = new MediaPlayer();
+
+                    if(selectedSong == null){
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.sound_not_set_message), Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    try{
+                        mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(selectedSong.getUri()));
+                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
+                        mediaPlayer.setLooping(true);
+                        mediaPlayer.prepare();
+                        mediaPlayer.start();
+                    }catch(Exception e){
+                        mediaPlayer.pause();
+                        mediaPlayer.release();
+                        mediaPlayer = new MediaPlayer();
+                        Log.e("seekbar error", e.toString());
+                    }
+                    break;
+                case R.id.seekBarVibration:
+
+                    break;
+            }
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            switch(seekBar.getId()){
+                case R.id.seekBarSound:
+                    Log.d("stop!!!", mediaPlayer != null ? ""+mediaPlayer.isPlaying():"no mediaplayer");
+
+                    if(mediaPlayer != null && mediaPlayer.isPlaying()){
+                        Log.d("ring play!!!", "");
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                    }
+                    mediaPlayer.release();
+                    break;
+                case R.id.seekBarVibration:
+
+                    break;
+            }
         }
     };
 
@@ -333,6 +404,7 @@ public class SetAlarmActivity extends AppCompatActivity {
     }
 
     private void setSoundSelect(Song s){
+        selectedSong = s;
         txtvAlarmSound.setText(s.getTitle());
         switchAlarmSound.setChecked(true);
     }
