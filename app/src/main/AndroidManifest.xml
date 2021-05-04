@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".VibrationSelectActivity"></activity>
+        <activity android:name=".TimeRepeatActivity"></activity>
+        <activity android:name=".VibrationSelectActivity" />
         <activity android:name=".SoundSelectActivity" />
         <activity android:name=".SetAlarmActivity" />
         <activity android:name=".MainActivity">

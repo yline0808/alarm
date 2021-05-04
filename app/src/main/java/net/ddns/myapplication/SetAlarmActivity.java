@@ -7,21 +7,15 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -40,16 +34,12 @@ import android.widget.ToggleButton;
 
 import net.ddns.myapplication.table.NormalAlarm;
 import net.ddns.myapplication.table.Song;
-
-import org.w3c.dom.Text;
+import net.ddns.myapplication.table.Vibration;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SetAlarmActivity extends AppCompatActivity {
     ImageButton backBtn;
@@ -72,13 +62,12 @@ public class SetAlarmActivity extends AppCompatActivity {
     Button btnAlarmDelete;
     Button btnAlarmSave;
     SeekBar seekBarSound;
-    SeekBar seekBarVibration;
     AlarmDatabase db;
     MediaPlayer mediaPlayer;
     Intent intent;
-    Vibrator vibrator;
 
     Song selectedSong;
+    Vibration selectedVibration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,12 +116,8 @@ public class SetAlarmActivity extends AppCompatActivity {
         btnAlarmDelete = (Button)findViewById(R.id.btnAlarmDelete);
         btnAlarmSave = (Button)findViewById(R.id.btnAlarmSave);
         seekBarSound = (SeekBar)findViewById(R.id.seekBarSound);
-        seekBarVibration = (SeekBar)findViewById(R.id.seekBarVibration);
-
-        vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
 
         seekBarSound.setMax(15);
-        seekBarVibration.setMax(15);
     }
 
     private void setDefaultTime(){
@@ -218,7 +203,6 @@ public class SetAlarmActivity extends AppCompatActivity {
 
     //    ===Listener===
     View.OnClickListener clickListener = new View.OnClickListener() {
-        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onClick(View v) {
             switch(v.getId()){
@@ -235,6 +219,7 @@ public class SetAlarmActivity extends AppCompatActivity {
 //                    }else{
 //                        new InsertAsyncTask (db.normalAlarmDao()).execute(new NormalAlarm(txtvAlarmTitle.getText().toString().trim(), "time", 1));
 //                    }
+                    finish();
                     break;
                 case R.id.llAlarmTitle:
                     final EditText editText = new EditText(getApplicationContext());
@@ -270,16 +255,12 @@ public class SetAlarmActivity extends AppCompatActivity {
                     startActivityForResult(intent, 3000);
                     break;
                 case R.id.llAlarmVibration:
-//                    vibrator.vibrate(500);
-
-                    long timings[] = {100, 100, 0,400,0,200,0,400};
-                    int amplitudes[] = {0, 50, 0, 100, 0, 50, 0, 150};
-
-                    long timings2[] = {1000, 500, 1000, 1000};
-                    vibrator.vibrate(VibrationEffect.createWaveform(timings2, 0));
+                    intent = new Intent(getApplicationContext(), VibrationSelectActivity.class);
+                    startActivityForResult(intent, 3001);
                     break;
                 case R.id.llAlarmAgain:
-                    vibrator.cancel();
+                    intent = new Intent(getApplicationContext(), TimeRepeatActivity.class);
+                    startActivityForResult(intent, 3002);
                     break;
             }
         }
@@ -299,8 +280,7 @@ public class SetAlarmActivity extends AppCompatActivity {
                 buttonView.setTextColor(getResources().getColor(R.color.red));
             }else if(buttonView.getText().equals(getResources().getString(R.string.sat)) && !isChecked){
                 buttonView.setTextColor(getResources().getColor(R.color.blue));
-            }
-            else if(isChecked){
+            }else if(isChecked){
                 buttonView.setTextColor(getResources().getColor(R.color.main));
             }else{
                 buttonView.setTextColor(getResources().getColor(R.color.black));
@@ -318,12 +298,10 @@ public class SetAlarmActivity extends AppCompatActivity {
                     AudioManager audioManager = (AudioManager)getSystemService(AUDIO_SERVICE);
                     audioManager.setStreamVolume(AudioManager.STREAM_RING, progress, 0);
                     break;
-                case R.id.seekBarVibration:
-
-                    break;
             }
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
             switch(seekBar.getId()){
@@ -347,9 +325,6 @@ public class SetAlarmActivity extends AppCompatActivity {
                         Log.e("seekbar error", e.toString());
                     }
                     break;
-                case R.id.seekBarVibration:
-
-                    break;
             }
         }
 
@@ -363,9 +338,6 @@ public class SetAlarmActivity extends AppCompatActivity {
                         mediaPlayer.release();
                     }
                     mediaPlayer.release();
-                    break;
-                case R.id.seekBarVibration:
-
                     break;
             }
         }
@@ -384,7 +356,7 @@ public class SetAlarmActivity extends AppCompatActivity {
                         setSoundSelect((Song)data.getSerializableExtra("song"));
                         break;
                     case 3001:
-
+                        setVibrationSelect((Vibration)data.getSerializableExtra("vibration"));
                         break;
                     default:
 
@@ -397,7 +369,7 @@ public class SetAlarmActivity extends AppCompatActivity {
                         setSoundSelect(selectedSong);
                         break;
                     case 3001:
-
+                        setVibrationSelect(selectedVibration);
                         break;
                     default:
                         break;
@@ -425,11 +397,9 @@ public class SetAlarmActivity extends AppCompatActivity {
         switchAlarmSound.setChecked(s != null);
     }
 
-//    lifecycle
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        vibrator.cancel();
+    private void setVibrationSelect(Vibration vib){
+        selectedVibration = vib;
+        txtvAlarmVibration.setText(vib != null ? vib.getName():getResources().getString(R.string.default_sel));
+        switchAlarmVibration.setChecked(vib != null);
     }
 }
