@@ -79,7 +79,6 @@ public class SoundSelectActivity extends AppCompatActivity {
         while (cursor.moveToNext()) {
             String notificationTitle = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX);
             String notificationUri = cursor.getString(RingtoneManager.URI_COLUMN_INDEX) + "/" + cursor.getString(RingtoneManager.ID_COLUMN_INDEX);
-            Log.d("song!!!", notificationTitle + ":::" + notificationUri);
             Song song = new Song(notificationTitle, notificationUri);
             list.add(song);
         }

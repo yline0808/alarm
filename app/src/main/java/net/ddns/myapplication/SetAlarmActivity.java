@@ -20,6 +20,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -75,6 +76,7 @@ public class SetAlarmActivity extends AppCompatActivity {
     AlarmDatabase db;
     MediaPlayer mediaPlayer;
     Intent intent;
+    Vibrator vibrator;
 
     Song selectedSong;
 
@@ -126,6 +128,8 @@ public class SetAlarmActivity extends AppCompatActivity {
         btnAlarmSave = (Button)findViewById(R.id.btnAlarmSave);
         seekBarSound = (SeekBar)findViewById(R.id.seekBarSound);
         seekBarVibration = (SeekBar)findViewById(R.id.seekBarVibration);
+
+        vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
 
         seekBarSound.setMax(15);
         seekBarVibration.setMax(15);
@@ -214,6 +218,7 @@ public class SetAlarmActivity extends AppCompatActivity {
 
     //    ===Listener===
     View.OnClickListener clickListener = new View.OnClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onClick(View v) {
             switch(v.getId()){
@@ -265,10 +270,16 @@ public class SetAlarmActivity extends AppCompatActivity {
                     startActivityForResult(intent, 3000);
                     break;
                 case R.id.llAlarmVibration:
-                    Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                    vibrator.vibrate(500);
+//                    vibrator.vibrate(500);
+
+                    long timings[] = {100, 100, 0,400,0,200,0,400};
+                    int amplitudes[] = {0, 50, 0, 100, 0, 50, 0, 150};
+
+                    long timings2[] = {1000, 500, 1000, 1000};
+                    vibrator.vibrate(VibrationEffect.createWaveform(timings2, 0));
                     break;
                 case R.id.llAlarmAgain:
+                    vibrator.cancel();
                     break;
             }
         }
@@ -304,7 +315,6 @@ public class SetAlarmActivity extends AppCompatActivity {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             switch(seekBar.getId()){
                 case R.id.seekBarSound:
-                    Log.d("change!!!", "change");
                     AudioManager audioManager = (AudioManager)getSystemService(AUDIO_SERVICE);
                     audioManager.setStreamVolume(AudioManager.STREAM_RING, progress, 0);
                     break;
@@ -318,7 +328,6 @@ public class SetAlarmActivity extends AppCompatActivity {
         public void onStartTrackingTouch(SeekBar seekBar) {
             switch(seekBar.getId()){
                 case R.id.seekBarSound:
-                    Log.d("start!!!", "test");
                     mediaPlayer = new MediaPlayer();
 
                     if(selectedSong == null){
@@ -348,8 +357,6 @@ public class SetAlarmActivity extends AppCompatActivity {
         public void onStopTrackingTouch(SeekBar seekBar) {
             switch(seekBar.getId()){
                 case R.id.seekBarSound:
-                    Log.d("stop!!!", mediaPlayer != null ? ""+mediaPlayer.isPlaying():"no mediaplayer");
-
                     if(mediaPlayer != null && mediaPlayer.isPlaying()){
                         Log.d("ring play!!!", "");
                         mediaPlayer.stop();
@@ -385,7 +392,16 @@ public class SetAlarmActivity extends AppCompatActivity {
                 }
                 break;
             case RESULT_CANCELED:
-                Log.d("cancel", "backbtn");
+                switch (requestCode){
+                    case 3000:
+                        setSoundSelect(selectedSong);
+                        break;
+                    case 3001:
+
+                        break;
+                    default:
+                        break;
+                }
                 break;
             default:
                 switch(requestCode){
@@ -405,7 +421,15 @@ public class SetAlarmActivity extends AppCompatActivity {
 
     private void setSoundSelect(Song s){
         selectedSong = s;
-        txtvAlarmSound.setText(s.getTitle());
-        switchAlarmSound.setChecked(true);
+        txtvAlarmSound.setText(s != null? s.getTitle():getResources().getString(R.string.default_sel));
+        switchAlarmSound.setChecked(s != null);
+    }
+
+//    lifecycle
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        vibrator.cancel();
     }
 }

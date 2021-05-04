@@ -17,17 +17,16 @@ import net.ddns.myapplication.table.Song;
 
 import java.util.ArrayList;
 
-public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.SoundListViewHolder> implements Filterable {
+public class VibrationListAdapter extends RecyclerView.Adapter<VibrationListAdapter.SoundListViewHolder> implements Filterable {
     ArrayList<Song> songs;
     ArrayList<Song> songsAll;
     private static int lastCheckedPos = -1;
 
     private OnItemClickListener mListener = null;
 
-    public SoundListAdapter(ArrayList<Song> songs) {
+    public VibrationListAdapter(ArrayList<Song> songs) {
         this.songs = songs;
         this.songsAll = new ArrayList<>(songs);
-        lastCheckedPos = -1;
     }
 
     public interface OnItemClickListener{
@@ -108,7 +107,6 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.Soun
 
             textView = itemView.findViewById(R.id.txtvName);
             radioButton = itemView.findViewById(R.id.radioBtn);
-            radioButton.setChecked(false);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

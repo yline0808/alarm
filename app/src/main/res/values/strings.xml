@@ -31,6 +31,6 @@
 
     <string name="km">km</string>
 
-<!--    toast-->
+    <!--    toast-->
     <string name="sound_not_set_message">설정된 소리가 없습니다.</string>
 </resources>
