@@ -31,6 +31,11 @@
     <string name="cancel">취소</string>
     <string name="default_sel">설정 안 함</string>
 
+    <string name="repeat_title">반복 설정</string>
+    <string name="repeat_infinite">무한 반복</string>
+    <string name="gap">간격</string>
+    <string name="repeat">반복</string>
+
     <string name="km">km</string>
 
     <!--    진동-->

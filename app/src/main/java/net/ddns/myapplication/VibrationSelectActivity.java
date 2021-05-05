@@ -48,22 +48,22 @@ public class VibrationSelectActivity extends AppCompatActivity {
 
     private void pushVibrationType(){
         long basicVibrationTiming[] = {100, 1000, 900};
-        vibrationList.add(new Vibration(getRString(R.string.vibration_basic), basicVibrationTiming));
+        vibrationList.add(new Vibration(getRStr(R.string.vibration_basic), basicVibrationTiming));
         long highVibrationTiming[] = {100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100};
-        vibrationList.add(new Vibration(getRString(R.string.vibration_high), highVibrationTiming));
+        vibrationList.add(new Vibration(getRStr(R.string.vibration_high), highVibrationTiming));
         long staccatoVibrationTiming[] = {100, 100, 100, 500};
-        vibrationList.add(new Vibration(getRString(R.string.vibration_staccato), staccatoVibrationTiming));
+        vibrationList.add(new Vibration(getRStr(R.string.vibration_staccato), staccatoVibrationTiming));
         long heartVibrationTiming[] = {100, 100, 100, 100, 500, 100, 100, 100};
-        vibrationList.add(new Vibration(getRString(R.string.vibration_heart), heartVibrationTiming));
+        vibrationList.add(new Vibration(getRStr(R.string.vibration_heart), heartVibrationTiming));
         long symphonyVibrationTiming[] = {100, 100, 100, 100, 100, 100, 100, 1000, 500, 100, 100, 100, 100, 100, 100, 1000};
-        vibrationList.add(new Vibration(getRString(R.string.vibration_symphony), symphonyVibrationTiming));
+        vibrationList.add(new Vibration(getRStr(R.string.vibration_symphony), symphonyVibrationTiming));
         long accentVibrationTiming[] = {100, 50, 200, 500};
-        vibrationList.add(new Vibration(getRString(R.string.vibration_accent), accentVibrationTiming));
+        vibrationList.add(new Vibration(getRStr(R.string.vibration_accent), accentVibrationTiming));
         long sosVibrationTiming[] = {100, 200, 100, 200, 100, 200, 400, 500, 100, 500, 100, 500, 400, 200, 100, 200, 100, 200};
-        vibrationList.add(new Vibration(getRString(R.string.vibration_sos), sosVibrationTiming));
+        vibrationList.add(new Vibration(getRStr(R.string.vibration_sos), sosVibrationTiming));
     }
 
-    private String getRString(int id){
+    private String getRStr(int id){
         return getResources().getString(id);
     }
 

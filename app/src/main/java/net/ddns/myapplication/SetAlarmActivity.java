@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -19,12 +20,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -32,8 +35,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import net.ddns.myapplication.fragment.TimeRepeatDialogFragment;
 import net.ddns.myapplication.table.NormalAlarm;
 import net.ddns.myapplication.table.Song;
+import net.ddns.myapplication.table.TimeRepeat;
 import net.ddns.myapplication.table.Vibration;
 
 import java.sql.Date;
@@ -41,7 +46,7 @@ import java.sql.Time;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 
-public class SetAlarmActivity extends AppCompatActivity {
+public class SetAlarmActivity extends AppCompatActivity implements TimeRepeatDialogFragment.OnCompleteListener {
     ImageButton backBtn;
     TextView txtvTime;
     TextView txtvWeek;
@@ -61,6 +66,9 @@ public class SetAlarmActivity extends AppCompatActivity {
     Switch switchAlarmAgain;
     Button btnAlarmDelete;
     Button btnAlarmSave;
+    Button btnWeekday;
+    Button btnWeekend;
+    Button btnAllday;
     SeekBar seekBarSound;
     AlarmDatabase db;
     MediaPlayer mediaPlayer;
@@ -68,6 +76,7 @@ public class SetAlarmActivity extends AppCompatActivity {
 
     Song selectedSong;
     Vibration selectedVibration;
+    TimeRepeat selectedTimeRepeat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +124,9 @@ public class SetAlarmActivity extends AppCompatActivity {
         switchAlarmAgain = (Switch)findViewById(R.id.switchAlarmAgain);
         btnAlarmDelete = (Button)findViewById(R.id.btnAlarmDelete);
         btnAlarmSave = (Button)findViewById(R.id.btnAlarmSave);
+        btnWeekday = (Button)findViewById(R.id.btnWeekday);
+        btnWeekend = (Button)findViewById(R.id.btnWeekend);
+        btnAllday = (Button)findViewById(R.id.btnAllday);
         seekBarSound = (SeekBar)findViewById(R.id.seekBarSound);
 
         seekBarSound.setMax(15);
@@ -138,6 +150,9 @@ public class SetAlarmActivity extends AppCompatActivity {
         backBtn.setOnClickListener(clickListener);
         btnAlarmSave.setOnClickListener(clickListener);
         btnAlarmDelete.setOnClickListener(clickListener);
+        btnWeekday.setOnClickListener(clickListener);
+        btnWeekend.setOnClickListener(clickListener);
+        btnAllday.setOnClickListener(clickListener);
         llAlarmTitle.setOnClickListener(clickListener);
         llAlarmSound.setOnClickListener(clickListener);
         llAlarmVibration.setOnClickListener(clickListener);
@@ -169,9 +184,19 @@ public class SetAlarmActivity extends AppCompatActivity {
             }
         }
 
-        weekInfo = isAllDay ? getResources().getString(R.string.all_day) : weekInfo;
+        weekInfo = isAllDay ? getRStr(R.string.all_day) : weekInfo;
 
         return weekInfo;
+    }
+
+    private void convWeekCheck(Boolean weekInfo[]){
+        for(int i = 0; i < tbtnWeek.length; i++){
+            tbtnWeek[i].setChecked(weekInfo[i]);
+        }
+    }
+
+    private String getRStr(int id){
+        return getResources().getString(id);
     }
 
     private String[] getAllMp3Path(){
@@ -201,6 +226,19 @@ public class SetAlarmActivity extends AppCompatActivity {
         return resultPath;
     }
 
+    @Override
+    public void onInputedData(String minute, String count) {
+        txtvAlarmAgain.setText(
+                minute+"분, "+count + (count.equals(getRStr(R.string.repeat_infinite))? "":"회")
+        );
+
+        selectedTimeRepeat = new TimeRepeat(
+                Integer.parseInt(minute),
+                count.equals(getRStr(R.string.repeat_infinite))?0:Integer.parseInt(count)
+        );
+        switchAlarmAgain.setChecked(true);
+    }
+
     //    ===Listener===
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
@@ -221,17 +259,27 @@ public class SetAlarmActivity extends AppCompatActivity {
 //                    }
                     finish();
                     break;
+                case R.id.btnWeekday:
+                    convWeekCheck( new Boolean[] {false, true,true,true,true,true, false});
+                    break;
+                case R.id.btnWeekend:
+                    convWeekCheck( new Boolean[] {true, false,false,false,false,false, true});
+                    break;
+                case R.id.btnAllday:
+                    convWeekCheck( new Boolean[] {true, true,true,true,true,true, true});
+                    break;
                 case R.id.llAlarmTitle:
                     final EditText editText = new EditText(getApplicationContext());
-                    editText.setText(txtvAlarmTitle.getText().toString().equals(getResources().getString(R.string.default_sel)) ? null : txtvAlarmTitle.getText().toString());
+                    editText.setText(txtvAlarmTitle.getText().toString().equals(getRStr(R.string.default_sel)) ? null : txtvAlarmTitle.getText().toString());
                     AlertDialog.Builder setTitleDialog = new AlertDialog.Builder(SetAlarmActivity.this);
-                    setTitleDialog.setTitle(getResources().getString(R.string.alarm_title));
+                    setTitleDialog.setTitle(getRStr(R.string.alarm_title));
                     setTitleDialog.setView(editText);
-                    setTitleDialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+
+                    setTitleDialog.setPositiveButton(getRStr(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if(editText.getText().toString().equals("")){
-                                txtvAlarmTitle.setText(getResources().getString(R.string.default_sel));
+                                txtvAlarmTitle.setText(getRStr(R.string.default_sel));
                                 switchAlarmTitle.setChecked(false);
                                 Toast.makeText(getApplicationContext(), "알람 제목을 설정하기 않았습니다.", Toast.LENGTH_SHORT).show();
                             }else{
@@ -249,6 +297,7 @@ public class SetAlarmActivity extends AppCompatActivity {
                         }
                     });
                     setTitleDialog.show();
+
                     break;
                 case R.id.llAlarmSound:
                     intent = new Intent(getApplicationContext(), SoundSelectActivity.class);
@@ -259,8 +308,11 @@ public class SetAlarmActivity extends AppCompatActivity {
                     startActivityForResult(intent, 3001);
                     break;
                 case R.id.llAlarmAgain:
-                    intent = new Intent(getApplicationContext(), TimeRepeatActivity.class);
-                    startActivityForResult(intent, 3002);
+                    DialogFragment timeRepeatDialogFragment = new TimeRepeatDialogFragment();
+                    timeRepeatDialogFragment.show(getSupportFragmentManager(),"dialog");
+
+//                    intent = new Intent(getApplicationContext(), TimeRepeatActivity.class);
+//                    startActivityForResult(intent, 3002);
                     break;
             }
         }
@@ -276,9 +328,9 @@ public class SetAlarmActivity extends AppCompatActivity {
     CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(buttonView.getText().equals(getResources().getString(R.string.sun)) && !isChecked){
+            if(buttonView.getText().equals(getRStr(R.string.sun)) && !isChecked){
                 buttonView.setTextColor(getResources().getColor(R.color.red));
-            }else if(buttonView.getText().equals(getResources().getString(R.string.sat)) && !isChecked){
+            }else if(buttonView.getText().equals(getRStr(R.string.sat)) && !isChecked){
                 buttonView.setTextColor(getResources().getColor(R.color.blue));
             }else if(isChecked){
                 buttonView.setTextColor(getResources().getColor(R.color.main));
@@ -309,7 +361,7 @@ public class SetAlarmActivity extends AppCompatActivity {
                     mediaPlayer = new MediaPlayer();
 
                     if(selectedSong == null){
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.sound_not_set_message), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getRStr(R.string.sound_not_set_message), Toast.LENGTH_SHORT).show();
                         break;
                     }
                     try{
@@ -393,13 +445,13 @@ public class SetAlarmActivity extends AppCompatActivity {
 
     private void setSoundSelect(Song s){
         selectedSong = s;
-        txtvAlarmSound.setText(s != null? s.getTitle():getResources().getString(R.string.default_sel));
+        txtvAlarmSound.setText(s != null? s.getTitle():getRStr(R.string.default_sel));
         switchAlarmSound.setChecked(s != null);
     }
 
     private void setVibrationSelect(Vibration vib){
         selectedVibration = vib;
-        txtvAlarmVibration.setText(vib != null ? vib.getName():getResources().getString(R.string.default_sel));
+        txtvAlarmVibration.setText(vib != null ? vib.getName():getRStr(R.string.default_sel));
         switchAlarmVibration.setChecked(vib != null);
     }
 }

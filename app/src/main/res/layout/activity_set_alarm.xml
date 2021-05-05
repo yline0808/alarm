@@ -50,18 +50,55 @@
 
     </LinearLayout>
 
-    <TimePicker
-        android:id="@+id/tpSelectTime"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:timePickerMode="spinner"
-        android:background="@color/time_picker"/>
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="@color/time_picker">
+
+        <TimePicker
+            android:id="@+id/tpSelectTime"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_weight="1"
+            android:timePickerMode="spinner"/>
+
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnWeekday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weekday"/>
+            <Button
+                android:id="@+id/btnWeekend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weekend"/>
+            <Button
+                android:id="@+id/btnAllday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all_day"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_margin="8dp">
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -158,18 +195,18 @@
 
             </LinearLayout>
 
-
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.3dp"
                 android:background="@color/txt_deactivate_1"/>
 
             <LinearLayout
+                android:id="@+id/llAlarmSound"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
+                android:layout_height="106dp"
                 android:orientation="vertical"
-                android:layout_margin="8dp">
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -178,7 +215,6 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/llAlarmSound"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -227,14 +263,15 @@
                 android:background="@color/txt_deactivate_1"/>
 
             <LinearLayout
+                android:id="@+id/llAlarmVibration"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="76dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:layout_margin="8dp">
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackground">
 
                 <LinearLayout
-                    android:id="@+id/llAlarmVibration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -275,14 +312,15 @@
                 android:background="@color/txt_deactivate_1"/>
 
             <LinearLayout
+                android:id="@+id/llAlarmTitle"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="76dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:layout_margin="8dp">
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackground">
 
                 <LinearLayout
-                    android:id="@+id/llAlarmTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -323,14 +361,15 @@
                 android:background="@color/txt_deactivate_1"/>
 
             <LinearLayout
+                android:id="@+id/llAlarmAgain"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="76dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:layout_margin="8dp">
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackground">
 
                 <LinearLayout
-                    android:id="@+id/llAlarmAgain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
