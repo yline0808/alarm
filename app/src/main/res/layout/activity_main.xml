@@ -40,70 +40,23 @@
 
     </LinearLayout>
 
-    <TabHost
-        android:id="@+id/tabHostMain"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="4dp">
+            android:layout_height="wrap_content"/>
 
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+        <androidx.viewpager2.widget.ViewPager2
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:id="@+id/llNormalAlarmTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <include
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        layout="@layout/tab_alarm_list"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/llLocationAlarmTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <include
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        layout="@layout/tab_location_alarm"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/llCallAlarmTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <include
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        layout="@layout/tab_location_alarm"/>
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-        </LinearLayout>
-
-    </TabHost>
+    </LinearLayout>
 
 </LinearLayout>
