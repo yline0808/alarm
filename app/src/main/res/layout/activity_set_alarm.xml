@@ -14,7 +14,7 @@
         android:gravity="center_vertical">
 
         <ImageButton
-            android:id="@+id/imgBtnBack"
+            android:id="@+id/imgbtn_back"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_left_arrow"
@@ -29,7 +29,7 @@
             android:layout_gravity="center">
 
             <TextView
-                android:id="@+id/txtvTime"
+                android:id="@+id/txtv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AM 12:30"
@@ -37,7 +37,7 @@
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/txtvWeek"
+                android:id="@+id/txtv_week"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"/>
@@ -59,7 +59,7 @@
         android:background="@color/time_picker">
 
         <TimePicker
-            android:id="@+id/tpSelectTime"
+            android:id="@+id/timpic_select_time"
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:layout_weight="1"
@@ -73,17 +73,17 @@
             android:gravity="center">
 
             <Button
-                android:id="@+id/btnWeekday"
+                android:id="@+id/btn_weekday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/weekday"/>
             <Button
-                android:id="@+id/btnWeekend"
+                android:id="@+id/btn_weekend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/weekend"/>
             <Button
-                android:id="@+id/btnAllday"
+                android:id="@+id/btn_allday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/all_day"/>
@@ -112,7 +112,7 @@
                 android:gravity="center">
 
                 <ToggleButton
-                    android:id="@+id/tbtnSun"
+                    android:id="@+id/tggbtn_sun"
                     android:layout_margin="4dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -123,7 +123,7 @@
                     android:background="@drawable/bg_weekend_selector"/>
 
                 <ToggleButton
-                    android:id="@+id/tbtnMon"
+                    android:id="@+id/tggbtn_mon"
                     android:layout_margin="4dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -135,7 +135,7 @@
                     android:background="@drawable/bg_weekend_selector"/>
 
                 <ToggleButton
-                    android:id="@+id/tbtnTue"
+                    android:id="@+id/tggbtn_tue"
                     android:layout_margin="4dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -147,7 +147,7 @@
                     android:background="@drawable/bg_weekend_selector"/>
 
                 <ToggleButton
-                    android:id="@+id/tbtnWed"
+                    android:id="@+id/tggbtn_wed"
                     android:layout_margin="4dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -159,7 +159,7 @@
                     android:background="@drawable/bg_weekend_selector"/>
 
                 <ToggleButton
-                    android:id="@+id/tbtnThu"
+                    android:id="@+id/tggbtn_thu"
                     android:layout_margin="4dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -171,7 +171,7 @@
                     android:background="@drawable/bg_weekend_selector"/>
 
                 <ToggleButton
-                    android:id="@+id/tbtnFri"
+                    android:id="@+id/tggbtn_fri"
                     android:layout_margin="4dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -183,7 +183,7 @@
                     android:background="@drawable/bg_weekend_selector"/>
 
                 <ToggleButton
-                    android:id="@+id/tbtnSat"
+                    android:id="@+id/tggbtn_sat"
                     android:layout_margin="4dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -201,7 +201,7 @@
                 android:background="@color/txt_deactivate_1"/>
 
             <LinearLayout
-                android:id="@+id/llAlarmSound"
+                android:id="@+id/linearlayout_alarm_sound"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"
                 android:orientation="vertical"
@@ -228,7 +228,7 @@
                             android:textColor="@color/black"/>
 
                         <TextView
-                            android:id="@+id/txtvAlarmSound"
+                            android:id="@+id/txtv_alarm_sound"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/default_sel"
@@ -243,14 +243,14 @@
                         android:layout_margin="8dp"/>
 
                     <Switch
-                        android:id="@+id/switchAlarmSound"
+                        android:id="@+id/switch_alarmSound"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"/>
 
                 </LinearLayout>
 
                 <SeekBar
-                    android:id="@+id/seekBarSound"
+                    android:id="@+id/seekbar_sound"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:progress="70"/>
@@ -263,7 +263,7 @@
                 android:background="@color/txt_deactivate_1"/>
 
             <LinearLayout
-                android:id="@+id/llAlarmVibration"
+                android:id="@+id/linearlayout_alarm_vibration"
                 android:layout_width="match_parent"
                 android:layout_height="76dp"
                 android:gravity="center_vertical"
@@ -285,7 +285,7 @@
                         android:textColor="@color/black"/>
 
                     <TextView
-                        android:id="@+id/txtvAlarmVibration"
+                        android:id="@+id/txtv_alarm_vibration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/default_sel"
@@ -300,7 +300,7 @@
                     android:layout_margin="8dp"/>
 
                 <Switch
-                    android:id="@+id/switchAlarmVibration"
+                    android:id="@+id/switch_alarm_vibration"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"/>
 
@@ -312,7 +312,7 @@
                 android:background="@color/txt_deactivate_1"/>
 
             <LinearLayout
-                android:id="@+id/llAlarmTitle"
+                android:id="@+id/linearlayout_alarm_title"
                 android:layout_width="match_parent"
                 android:layout_height="76dp"
                 android:gravity="center_vertical"
@@ -334,7 +334,7 @@
                         android:textColor="@color/black"/>
 
                     <TextView
-                        android:id="@+id/txtvAlarmTitle"
+                        android:id="@+id/txtv_alarm_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/default_sel"
@@ -349,7 +349,7 @@
                     android:layout_margin="8dp"/>
 
                 <Switch
-                    android:id="@+id/switchAlarmTitle"
+                    android:id="@+id/switch_alarm_title"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"/>
 
@@ -361,7 +361,7 @@
                 android:background="@color/txt_deactivate_1"/>
 
             <LinearLayout
-                android:id="@+id/llAlarmAgain"
+                android:id="@+id/linearlayout_alarm_again"
                 android:layout_width="match_parent"
                 android:layout_height="76dp"
                 android:gravity="center_vertical"
@@ -383,7 +383,7 @@
                         android:textColor="@color/black"/>
 
                     <TextView
-                        android:id="@+id/txtvAlarmAgain"
+                        android:id="@+id/txtv_alarm_again"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/default_sel"
@@ -398,7 +398,7 @@
                     android:layout_margin="8dp"/>
 
                 <Switch
-                    android:id="@+id/switchAlarmAgain"
+                    android:id="@+id/switch_alarm_again"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"/>
 
@@ -410,7 +410,7 @@
                 android:background="@color/txt_deactivate_1"/>
 
             <android.widget.Button
-                android:id="@+id/btnAlarmDelete"
+                android:id="@+id/btn_alarm_delete"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:text="@string/delete"
@@ -423,7 +423,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btnAlarmSave"
+        android:id="@+id/btn_alarm_save"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_marginBottom="8dp"

@@ -15,7 +15,7 @@
         android:gravity="center_vertical">
 
         <ImageButton
-            android:id="@+id/imgBtnBack"
+            android:id="@+id/imgbtn_back"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_left_arrow"
@@ -29,7 +29,7 @@
             android:gravity="right|center_vertical">
 
             <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
+                android:id="@+id/searchview"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="45dp"
@@ -38,7 +38,7 @@
                 app:searchIcon="@drawable/ic_search" />
 
             <ImageButton
-                android:id="@+id/imgBtnSoundSave"
+                android:id="@+id/imgbtn_sound_save"
                 android:layout_marginRight="8dp"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -52,7 +52,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_margin="8dp"
-        android:id="@+id/recyclerViewSound"
+        android:id="@+id/recyclerview_sound"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -36,7 +36,7 @@
                 android:textSize="16dp"/>
 
             <NumberPicker
-                android:id="@+id/npMinute"
+                android:id="@+id/numpicker_minute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"/>
@@ -59,7 +59,7 @@
                 android:textSize="16dp"/>
 
             <NumberPicker
-                android:id="@+id/npCount"
+                android:id="@+id/numpicker_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"/>
@@ -74,7 +74,7 @@
         android:orientation="horizontal">
 
         <android.widget.Button
-            android:id="@+id/btnCancel"
+            android:id="@+id/btn_cancel"
             android:layout_margin="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             android:textColor="@color/white"/>
 
         <Button
-            android:id="@+id/btnOk"
+            android:id="@+id/btn_ok"
             android:layout_margin="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

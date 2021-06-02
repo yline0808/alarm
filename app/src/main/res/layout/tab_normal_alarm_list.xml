@@ -96,12 +96,12 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/imgBtnAddAlarm"
+        android:id="@+id/imgbtn_normal_alarm_add"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_add_alarm"
-        android:background="?attr/selectableItemBackground"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_gravity="bottom|right"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"/>
