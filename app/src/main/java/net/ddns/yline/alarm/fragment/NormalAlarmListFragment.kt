@@ -1,13 +1,17 @@
 package net.ddns.yline.alarm.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import net.ddns.yline.alarm.R
+import net.ddns.yline.alarm.SetAlarmActivity
 import net.ddns.yline.alarm.databinding.TabNormalAlarmListBinding
 
 class NormalAlarmListFragment: Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -18,7 +22,16 @@ class NormalAlarmListFragment: Fragment() {
             container,
             false
         ).apply {
-
+            imgbtnNormalAlarmAdd.setOnClickListener {  }
         }.root
+    }
+
+    inner class btnClickListener:View.OnClickListener{
+        override fun onClick(v: View?) {
+            when (v?.id){
+
+            }
+            val intent = Intent(context, SetAlarmActivity::class.java)
+        }
     }
 }
