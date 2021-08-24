@@ -9,21 +9,21 @@
 
     <string name="am">오전</string>
     <string name="pm">오후</string>
-    <string name="togglebutton_sun">일</string>
-    <string name="togglebutton_mon">월</string>
-    <string name="togglebutton_tue">화</string>
-    <string name="togglebutton_wed">수</string>
-    <string name="togglebutton_thu">목</string>
-    <string name="togglebutton_fri">금</string>
-    <string name="togglebutton_sat">토</string>
-    <string name="button_all_day">매일</string>
-    <string name="button_weekday">주중</string>
-    <string name="button_weekend">주말</string>
+    <string name="sun">일</string>
+    <string name="mon">월</string>
+    <string name="tue">화</string>
+    <string name="wed">수</string>
+    <string name="thu">목</string>
+    <string name="fri">금</string>
+    <string name="sat">토</string>
+    <string name="all_day">매일</string>
+    <string name="weekday">주중</string>
+    <string name="weekend">주말</string>
 
-    <string name="textview_alarm_name">알람 이름</string>
-    <string name="textview_alarm_repeat">다시 울림</string>
-    <string name="textview_alarm_sound">알람음</string>
-    <string name="textview_alarm_vibration">진동</string>
+    <string name="alarm_name">알람 이름</string>
+    <string name="alarm_repeat">다시 울림</string>
+    <string name="alarm_sound">알람음</string>
+    <string name="alarm_vibration">진동</string>
 
     <string name="button_save">저장</string>
     <string name="button_delete">삭제</string>
@@ -52,9 +52,16 @@
     <string name="sound_not_set_message">설정된 소리가 없습니다.</string>
 
     <!--    description-->
-    <string name="image_button_back_description">뒤로가기 버튼입니다.</string>
+    <string name="add_normal_alarm_description">일반 알람 추가버튼입니다.</string>
+    <string name="back_description">뒤로가기 버튼입니다.</string>
+    <string name="save_description">저장 버튼입니다.</string>
 
     <!--    default text-->
-    <string name="textview_top_default_time">AM 12:00</string>
-    <string name="imgBtnMainOptionText">메인 설정입니다.</string>
+    <string name="top_default_time">AM 12:00</string>
+    <string name="default_time_interval">오전12:00~오후12:00</string>
+    <string name="default_time">6:00</string>
+    <string name="default_km">1.0km</string>
+    <string name="default_area">고양시</string>
+
+    <string name="main_option">메인 설정입니다.</string>
 </resources>

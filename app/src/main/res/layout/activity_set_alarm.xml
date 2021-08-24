@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@color/main"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/constraint_time_set">
 
         <ImageButton
@@ -23,21 +23,21 @@
             android:layout_height="50dp"
             android:src="@drawable/ic_left_arrow"
             android:background="@color/transparent"
-            android:contentDescription="@string/image_button_back_description"
+            android:contentDescription="@string/back_description"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/textview_top_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/textview_top_default_time"
+            android:text="@string/top_default_time"
             android:textSize="10pt"
             android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/image_button_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/textview_top_week"/>
 
         <TextView
@@ -46,8 +46,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/textview_top_time"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/image_button_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -58,8 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toTopOf="@id/scrollview_time_set"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraint_top_bar">
 
         <TimePicker
@@ -68,38 +68,38 @@
             android:layout_height="0dp"
             android:timePickerMode="spinner"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/button_time_weekday"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_time_weekday"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_time_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_all_day"
+            android:text="@string/all_day"
             app:layout_constraintBottom_toTopOf="@id/button_time_weekday"
-            app:layout_constraintLeft_toRightOf="@id/timepicker_time_set"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@id/timepicker_time_set"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_time_weekday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_weekday"
+            android:text="@string/weekday"
             app:layout_constraintBottom_toTopOf="@id/button_time_weekend"
-            app:layout_constraintLeft_toRightOf="@id/timepicker_time_set"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@id/timepicker_time_set"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_time_all" />
 
         <Button
             android:id="@+id/button_time_weekend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_weekend"
+            android:text="@string/weekend"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/timepicker_time_set"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@id/timepicker_time_set"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_time_weekday" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -109,8 +109,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/button_alarm_save"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraint_time_set">
 
         <LinearLayout
@@ -131,8 +131,8 @@
                     android:layout_margin="4dp"
                     android:background="@drawable/bg_weekend_selector"
                     android:textColor="@color/red"
-                    android:textOff="@string/togglebutton_sun"
-                    android:textOn="@string/togglebutton_sun"
+                    android:textOff="@string/sun"
+                    android:textOn="@string/sun"
                     android:textSize="8pt" />
 
                 <ToggleButton
@@ -143,8 +143,8 @@
                     android:background="@drawable/bg_weekend_selector"
                     android:checked="true"
                     android:textColor="@color/main"
-                    android:textOff="@string/togglebutton_mon"
-                    android:textOn="@string/togglebutton_mon"
+                    android:textOff="@string/mon"
+                    android:textOn="@string/mon"
                     android:textSize="8pt" />
 
                 <ToggleButton
@@ -155,8 +155,8 @@
                     android:background="@drawable/bg_weekend_selector"
                     android:checked="true"
                     android:textColor="@color/main"
-                    android:textOff="@string/togglebutton_tue"
-                    android:textOn="@string/togglebutton_tue"
+                    android:textOff="@string/tue"
+                    android:textOn="@string/tue"
                     android:textSize="8pt" />
 
                 <ToggleButton
@@ -167,8 +167,8 @@
                     android:background="@drawable/bg_weekend_selector"
                     android:checked="true"
                     android:textColor="@color/main"
-                    android:textOff="@string/togglebutton_wed"
-                    android:textOn="@string/togglebutton_wed"
+                    android:textOff="@string/wed"
+                    android:textOn="@string/wed"
                     android:textSize="8pt" />
 
                 <ToggleButton
@@ -179,8 +179,8 @@
                     android:background="@drawable/bg_weekend_selector"
                     android:checked="true"
                     android:textColor="@color/main"
-                    android:textOff="@string/togglebutton_thu"
-                    android:textOn="@string/togglebutton_thu"
+                    android:textOff="@string/thu"
+                    android:textOn="@string/thu"
                     android:textSize="8pt" />
 
                 <ToggleButton
@@ -191,8 +191,8 @@
                     android:background="@drawable/bg_weekend_selector"
                     android:checked="true"
                     android:textColor="@color/main"
-                    android:textOff="@string/togglebutton_fri"
-                    android:textOn="@string/togglebutton_fri"
+                    android:textOff="@string/fri"
+                    android:textOn="@string/fri"
                     android:textSize="8pt" />
 
                 <ToggleButton
@@ -202,8 +202,8 @@
                     android:layout_margin="4dp"
                     android:background="@drawable/bg_weekend_selector"
                     android:textColor="@color/blue"
-                    android:textOff="@string/togglebutton_sat"
-                    android:textOn="@string/togglebutton_sat"
+                    android:textOff="@string/sat"
+                    android:textOn="@string/sat"
                     android:textSize="8pt" />
 
             </LinearLayout>
@@ -220,6 +220,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:focusable="true"
                 android:background="?attr/selectableItemBackground"
                 android:padding="8dp">
 
@@ -227,11 +228,11 @@
                     android:id="@+id/textview_sound_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/textview_alarm_sound"
+                    android:text="@string/alarm_sound"
                     android:textColor="@color/black"
                     android:textSize="10pt"
                     app:layout_constraintBottom_toTopOf="@id/textview_sound_title"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -241,7 +242,7 @@
                     android:text="@string/textview_default_select"
                     android:textColor="@color/text_main"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textview_sound_text" />
 
                 <View
@@ -250,7 +251,7 @@
                     android:layout_margin="8dp"
                     android:background="@color/txt_deactivate_1"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/switch_sound"
+                    app:layout_constraintEnd_toStartOf="@id/switch_sound"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Switch
@@ -258,8 +259,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -281,6 +283,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:focusable="true"
                 android:background="?attr/selectableItemBackground"
                 android:padding="8dp">
 
@@ -288,10 +291,10 @@
                     android:id="@+id/textview_vibration_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/textview_alarm_vibration"
+                    android:text="@string/alarm_vibration"
                     android:textColor="@color/black"
                     android:textSize="10pt"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/textview_vibration_title"/>
 
@@ -301,7 +304,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/textview_default_select"
                     android:textColor="@color/text_main"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textview_vibration_text" />
 
                 <View
@@ -311,15 +314,16 @@
                     android:layout_margin="8dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/switch_vibration"/>
+                    app:layout_constraintEnd_toStartOf="@id/switch_vibration"/>
 
                 <Switch
                     android:id="@+id/switch_vibration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -335,6 +339,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:focusable="true"
                 android:background="?attr/selectableItemBackground"
                 android:padding="8dp">
 
@@ -342,11 +347,11 @@
                     android:id="@+id/textview_name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/textview_alarm_name"
+                    android:text="@string/alarm_name"
                     android:textSize="10pt"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/textview_name_title"/>
 
                 <TextView
@@ -356,7 +361,7 @@
                     android:text="@string/textview_default_select"
                     android:textColor="@color/text_main"
                     app:layout_constraintTop_toBottomOf="@id/textview_name_text"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <View
@@ -366,15 +371,16 @@
                     android:background="@color/txt_deactivate_1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/switch_name"/>
+                    app:layout_constraintEnd_toStartOf="@id/switch_name"/>
 
                 <Switch
                     android:id="@+id/switch_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -390,6 +396,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:focusable="true"
                 android:background="?attr/selectableItemBackground"
                 android:padding="8dp">
 
@@ -397,11 +404,11 @@
                     android:id="@+id/textview_repeat_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/textview_alarm_repeat"
+                    android:text="@string/alarm_repeat"
                     android:textSize="10pt"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/textview_repeat_title"/>
 
                 <TextView
@@ -411,7 +418,7 @@
                     android:text="@string/textview_default_select"
                     android:textColor="@color/text_main"
                     app:layout_constraintTop_toBottomOf="@id/textview_repeat_text"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <View
@@ -421,15 +428,16 @@
                     android:background="@color/txt_deactivate_1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/switch_repeat"/>
+                    app:layout_constraintEnd_toStartOf="@id/switch_repeat"/>
 
                 <Switch
                     android:id="@+id/switch_repeat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -464,7 +472,7 @@
         android:layout_margin="8dp"
         app:layout_constraintTop_toBottomOf="@id/scrollview_time_set"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

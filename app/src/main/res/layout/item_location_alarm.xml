@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_alarm_item"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:padding="6dp">
 
     <TextView
-        android:id="@+id/textview_time_am_pm"
+        android:id="@+id/textview_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/txt_deactivate_1"
-        android:text="@string/am"
+        android:text="@string/default_km"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/textview_time"/>
+        app:layout_constraintEnd_toStartOf="@id/textview_area"/>
 
     <TextView
-        android:id="@+id/textview_time"
+        android:id="@+id/textview_area"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/default_time"
+        android:text="@string/default_area"
         android:textColor="@color/black"
         android:textSize="14pt"
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textview_time_am_pm"
+        app:layout_constraintStart_toEndOf="@id/textview_distance"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_time_interval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_time_interval"
+        android:layout_marginEnd="6dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/switch_item"
+        app:layout_constraintBottom_toTopOf="@id/textview_week_wed"/>
 
     <TextView
         android:id="@+id/textview_week_sun"
@@ -36,7 +45,7 @@
         android:layout_height="wrap_content"
         android:text="@string/sun"
         android:layout_marginEnd="4dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_mon"/>
 
@@ -46,7 +55,7 @@
         android:layout_height="wrap_content"
         android:text="@string/mon"
         android:layout_marginEnd="4dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_tue"/>
 
@@ -56,7 +65,7 @@
         android:layout_height="wrap_content"
         android:text="@string/tue"
         android:layout_marginEnd="4dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_wed"/>
 
@@ -66,7 +75,7 @@
         android:layout_height="wrap_content"
         android:text="@string/wed"
         android:layout_marginEnd="4dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_thu"/>
 
@@ -76,7 +85,7 @@
         android:layout_height="wrap_content"
         android:text="@string/thu"
         android:layout_marginEnd="4dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_fri"/>
 
@@ -86,7 +95,7 @@
         android:layout_height="wrap_content"
         android:text="@string/fri"
         android:layout_marginEnd="4dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_sat"/>
 
@@ -96,7 +105,7 @@
         android:layout_height="wrap_content"
         android:text="@string/sat"
         android:layout_marginEnd="6dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/switch_item"/>
 
@@ -106,7 +115,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

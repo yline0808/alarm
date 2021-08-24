@@ -11,19 +11,10 @@ import net.ddns.yline.alarm.databinding.TabNormalAlarmListBinding
 
 class NormalAlarmListFragment: Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return TabNormalAlarmListBinding.inflate(
-            inflater,
-            container,
-            false
-        ).apply {
-            imgbtnNormalAlarmAdd.setOnClickListener {
-                startActivity(Intent(context, SetAlarmActivity::class.java))
-            }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return TabNormalAlarmListBinding.inflate(inflater, container, false).apply {
+            buttonAlarmAdd.setOnClickListener { startActivity(Intent(context, SetAlarmActivity::class.java)) }
+
         }.root
     }
 }

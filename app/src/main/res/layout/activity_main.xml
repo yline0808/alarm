@@ -29,14 +29,14 @@
             tools:ignore="RtlHardcoded">
 
             <ImageButton
-                android:id="@+id/imgbtn_main_option"
+                android:id="@+id/button_main_option"
                 android:layout_marginRight="8dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="fitXY"
                 android:background="@color/transparent"
                 android:src="@drawable/ic_more"
-                android:contentDescription="@string/imgBtnMainOptionText" />
+                android:contentDescription="@string/main_option" />
 
         </LinearLayout>
 

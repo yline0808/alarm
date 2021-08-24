@@ -7,12 +7,22 @@
         <entry key="app/src/main/res/drawable-v24/bg_weekend_selector.xml" value="0.29743589743589743" />
         <entry key="app/src/main/res/drawable/ripple_custom.xml" value="0.29743589743589743" />
         <entry key="app/src/main/res/layout/_activity_set_alarm.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25277777777777777" />
-        <entry key="app/src/main/res/layout/activity_set_alarm.xml" value="0.2802056555269923" />
-        <entry key="app/src/main/res/layout/activity_sound_select.xml" value="0.396875" />
-        <entry key="app/src/main/res/layout/item_alarm.xml" value="0.19300911854103345" />
-        <entry key="app/src/main/res/layout/item_sound_vibration.xml" value="0.1096757852077001" />
-        <entry key="app/src/main/res/layout/tab_normal_alarm_list.xml" value="0.19300911854103345" />
+        <entry key="app/src/main/res/layout/_activity_sound_select.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/_activity_vibration_select.xml" value="0.2838541666666667" />
+        <entry key="app/src/main/res/layout/_dialog_repeat_count.xml" value="0.2838541666666667" />
+        <entry key="app/src/main/res/layout/_tab_location_alarm_list.xml" value="0.2838541666666667" />
+        <entry key="app/src/main/res/layout/_tab_normal_alarm_list.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_set_alarm.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_sound_select.xml" value="0.2812078416832756" />
+        <entry key="app/src/main/res/layout/activity_vibration_select.xml" value="0.21875" />
+        <entry key="app/src/main/res/layout/dialog_repeat_count.xml" value="0.27098362590400743" />
+        <entry key="app/src/main/res/layout/item_alarm.xml" value="0.5435365270872535" />
+        <entry key="app/src/main/res/layout/item_location_alarm.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/item_sound_vibration.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/tab_app_setting.xml" value="0.13804457953394123" />
+        <entry key="app/src/main/res/layout/tab_location_alarm_list.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/tab_normal_alarm_list.xml" value="0.25" />
       </map>
     </option>
   </component>

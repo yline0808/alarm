@@ -1,97 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="8dp"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp">
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/textview_repeat_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/repeat_title"
         android:textColor="@color/black"
-        android:textSize="22dp"
-        android:layout_margin="8dp"/>
+        android:textSize="10pt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textview_gap_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:text="@string/gap"
+        android:textSize="8pt"
+        app:layout_constraintBottom_toTopOf="@id/button_repeat_cancel"
+        app:layout_constraintEnd_toStartOf="@id/picker_gap_select"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_repeat_title" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_margin="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/gap"
-                android:textSize="16dp"/>
-
-            <NumberPicker
-                android:id="@+id/numpicker_minute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_margin="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/repeat"
-                android:textSize="16dp"/>
-
-            <NumberPicker
-                android:id="@+id/numpicker_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <NumberPicker
+        android:id="@+id/picker_gap_select"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:descendantFocusability="blocksDescendants"
+        app:layout_constraintBottom_toTopOf="@id/button_repeat_cancel"
+        app:layout_constraintEnd_toStartOf="@id/textview_repeat_text"
+        app:layout_constraintStart_toEndOf="@id/textview_gap_text"
+        app:layout_constraintTop_toBottomOf="@id/textview_repeat_title" />
 
-        <android.widget.Button
-            android:id="@+id/btn_cancel"
-            android:layout_margin="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_delete_btn"
-            android:layout_weight="1"
-            android:text="@string/cancel"
-            android:textColor="@color/white"/>
+    <TextView
+        android:id="@+id/textview_repeat_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/repeat"
+        android:textSize="8pt"
+        app:layout_constraintBottom_toTopOf="@id/button_repeat_set"
+        app:layout_constraintEnd_toStartOf="@id/picker_repeat_select"
+        app:layout_constraintStart_toEndOf="@id/picker_gap_select"
+        app:layout_constraintTop_toBottomOf="@id/textview_repeat_title"/>
 
-        <Button
-            android:id="@+id/btn_ok"
-            android:layout_margin="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_ok_btn"
-            android:layout_weight="1"
-            android:text="@string/ok"/>
+    <NumberPicker
+        android:id="@+id/picker_repeat_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        app:layout_constraintTop_toBottomOf="@id/textview_repeat_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_repeat_set"
+        app:layout_constraintStart_toEndOf="@id/textview_repeat_text"/>
 
-    </LinearLayout>
+    <android.widget.Button
+        android:id="@+id/button_repeat_cancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_delete_btn"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="@string/cancel"
+        android:textColor="@color/white"
+        android:layout_margin="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_repeat_set"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/picker_gap_select" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/button_repeat_set"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_ok_btn"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="@string/ok"
+        android:layout_margin="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_repeat_cancel"
+        app:layout_constraintTop_toBottomOf="@id/picker_repeat_select" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
