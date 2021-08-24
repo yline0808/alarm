@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 0 -> getString(R.string.tab1)
                 1 -> getString(R.string.tab2)
                 2 -> getString(R.string.tab3)
-                else -> getString(R.string.default_sel)
+                else -> getString(R.string.textview_default_select)
             }
         }.attach()
     }

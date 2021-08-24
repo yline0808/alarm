@@ -12,7 +12,7 @@ class LocationAlarmListFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return TabLocationAlarmListBinding.inflate(
             inflater,
             container,

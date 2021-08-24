@@ -15,7 +15,7 @@
         android:id="@+id/txtv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/default_sel"
+        android:text="@string/textview_default_select"
         android:textColor="@color/black"/>
 
 </LinearLayout>
