@@ -55,6 +55,7 @@
     <string name="add_normal_alarm_description">일반 알람 추가버튼입니다.</string>
     <string name="back_description">뒤로가기 버튼입니다.</string>
     <string name="save_description">저장 버튼입니다.</string>
+    <string name="calendar_description">날짜지정 버튼입니다.</string>
 
     <!--    default text-->
     <string name="top_default_time">AM 12:00</string>

@@ -138,12 +138,12 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/imgbtn_location_alarm_add"
+        android:id="@+id/button_location_add"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_add_location"
-        android:background="@color/transparent"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_gravity="bottom|right"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"/>

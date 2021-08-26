@@ -22,7 +22,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_left_arrow"
-            android:background="@color/transparent"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/back_description"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -130,6 +130,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/bg_weekend_selector"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:textColor="@color/red"
                     android:textOff="@string/sun"
                     android:textOn="@string/sun"
@@ -141,6 +142,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/bg_weekend_selector"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:checked="true"
                     android:textColor="@color/main"
                     android:textOff="@string/mon"
@@ -153,6 +155,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/bg_weekend_selector"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:checked="true"
                     android:textColor="@color/main"
                     android:textOff="@string/tue"
@@ -165,6 +168,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/bg_weekend_selector"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:checked="true"
                     android:textColor="@color/main"
                     android:textOff="@string/wed"
@@ -177,6 +181,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/bg_weekend_selector"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:checked="true"
                     android:textColor="@color/main"
                     android:textOff="@string/thu"
@@ -189,6 +194,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/bg_weekend_selector"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:checked="true"
                     android:textColor="@color/main"
                     android:textOff="@string/fri"
@@ -201,10 +207,21 @@
                     android:layout_height="40dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/bg_weekend_selector"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:textColor="@color/blue"
                     android:textOff="@string/sat"
                     android:textOn="@string/sat"
                     android:textSize="8pt" />
+
+                <ImageButton
+                    android:id="@+id/button_calendar_set"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="10dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_calendar_50"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/calendar_description" />
 
             </LinearLayout>
 

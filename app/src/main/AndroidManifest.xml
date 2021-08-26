@@ -2,15 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.ddns.yline.alarm">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_main"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Alarm">
-        <activity android:name=".VibrationSelectActivity"></activity>
-        <activity android:name=".SetAlarmActivity"></activity>
+        <activity
+            android:name=".SetLocationActivity"
+            android:exported="true" />
+        <activity android:name=".VibrationSelectActivity" />
+        <activity android:name=".SetAlarmActivity" android:exported="true"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
