@@ -1,8 +1,6 @@
 package net.ddns.yline.alarm
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.media.AudioAttributes
@@ -19,7 +17,6 @@ import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import net.ddns.yline.alarm.databinding.ActivitySetAlarmBinding
 import net.ddns.yline.alarm.table.Song
 import net.ddns.yline.alarm.table.Vibration
@@ -30,9 +27,9 @@ import java.util.*
 
 class SetAlarmActivity : AppCompatActivity() {
     private val binding by lazy { ActivitySetAlarmBinding.inflate(layoutInflater) }
-    private var selectedSong: Song? = null
-    private var selectedVibration: Vibration? = null
-    private var mediaPlayer: MediaPlayer = MediaPlayer()
+    private lateinit var selectedSong: Song
+    private lateinit var selectedVibration: Vibration
+    private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +40,6 @@ class SetAlarmActivity : AppCompatActivity() {
     }
 
     // ===== 기능 =====
-    @SuppressLint("SimpleDateFormat")
     private fun setDefaultTime(){
         val now:String = SimpleDateFormat("H:mm").format(Date(System.currentTimeMillis()))
         val h:Int = now.substring(0, now.indexOf(":")).toInt()
@@ -57,7 +53,6 @@ class SetAlarmActivity : AppCompatActivity() {
         binding.textviewTopWeek.text = convWeekInfo()
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun convTimeToString(hourOfDay:Int, minute:Int):String{
         return SimpleDateFormat("a h:mm").format(Time(hourOfDay, minute, 0))
     }
@@ -81,7 +76,6 @@ class SetAlarmActivity : AppCompatActivity() {
                 buttonTimeAll.setOnClickListener(it)
                 buttonTimeWeekday.setOnClickListener(it)
                 buttonTimeWeekend.setOnClickListener(it)
-                buttonCalendarSet.setOnClickListener(it)
                 constraintNameSet.setOnClickListener(it)
                 constraintSoundSet.setOnClickListener(it)
                 constraintVibrationSet.setOnClickListener(it)
@@ -140,7 +134,6 @@ class SetAlarmActivity : AppCompatActivity() {
                     buttonTimeAll.id -> convWeekCheck(booleanArrayOf(true, true, true, true, true, true, true))
                     buttonTimeWeekday.id -> convWeekCheck(booleanArrayOf(false, true, true, true, true, true, false))
                     buttonTimeWeekend.id -> convWeekCheck(booleanArrayOf(true, false, false, false, false, false, true))
-                    buttonCalendarSet.id -> setCalendarDialog()
                     constraintNameSet.id -> setTitleDialog()
                     constraintSoundSet.id -> {
                         startForSoundResult.launch(Intent(applicationContext, SoundSelectActivity::class.java))
@@ -187,7 +180,7 @@ class SetAlarmActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "설정된 소리가 없습니다.", Toast.LENGTH_SHORT).show()
                     return
                 }
-
+                mediaPlayer = MediaPlayer()
                 mediaPlayer.apply {
                     setDataSource(applicationContext, Uri.parse(selectedSong!!.uri))
                     setAudioAttributes(AudioAttributes.Builder().setLegacyStreamType(STREAM_RING).build())
@@ -246,19 +239,6 @@ class SetAlarmActivity : AppCompatActivity() {
         }.show()
     }
 
-    private fun setCalendarDialog(){
-        // 준비중
-        var listener = DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
-            val test = "${i}년 ${i2 + 1}월 ${i3}일"
-            toast(test)
-        }
-
-        Calendar.getInstance().apply {
-            DatePickerDialog(this@SetAlarmActivity, listener, get(Calendar.YEAR), get(Calendar.MONTH), get(Calendar.DAY_OF_MONTH)).show()
-
-        }
-    }
-
     // ===== 엑티비티 결과 =====
     private val startForSoundResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result: ActivityResult ->
         when(result.resultCode){
@@ -285,4 +265,17 @@ class SetAlarmActivity : AppCompatActivity() {
     private fun toast(s:String){
         Toast.makeText(applicationContext, s, Toast.LENGTH_SHORT).show()
     }
+
+    // ===== 준비중 =====
+//    private fun setCalendarDialog(){
+//        var listener = DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
+//            val test = "${i}년 ${i2 + 1}월 ${i3}일 ${SimpleDateFormat("EEEE").format(Date(i, i2, i3-1))}"
+//            toast(test)
+//        }
+//
+//        Calendar.getInstance().apply {
+//            DatePickerDialog(this@SetAlarmActivity, listener, get(Calendar.YEAR), get(Calendar.MONTH), get(Calendar.DAY_OF_MONTH)).show()
+//
+//        }
+//    }
 }

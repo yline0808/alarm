@@ -1,20 +1,23 @@
 package net.ddns.yline.alarm
 
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import net.ddns.yline.alarm.adapter.VibrationAdapter
 import net.ddns.yline.alarm.databinding.ActivityVibrationSelectBinding
 import net.ddns.yline.alarm.table.Vibration
-import java.util.ArrayList
 
 class VibrationSelectActivity : AppCompatActivity() {
     private val binding by lazy { ActivityVibrationSelectBinding.inflate(layoutInflater) }
+    private val vibrationAdapter by lazy { VibrationAdapter(applicationContext) }
+    private val vibrator:Vibrator by lazy { getSystemService(VIBRATOR_SERVICE) as Vibrator }
     private val vibrationList: MutableList<Vibration> = mutableListOf()
-    private val vibrator:Vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-    private var vibrationAdapter:VibrationAdapter = VibrationAdapter(applicationContext)
+    private lateinit var selectedVibration: Vibration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +46,14 @@ class VibrationSelectActivity : AppCompatActivity() {
     }
 
     private fun setListener(){
-
+        binding.apply {
+            searchVibration.setOnQueryTextListener(queryTextListener())
+            vibrationAdapter.setOnItemClickListener(itemClickListener())
+            clickListener().also {
+                buttonBack.setOnClickListener(it)
+                buttonVibrationSave.setOnClickListener(it)
+            }
+        }
     }
 
     private fun setVibrationRecyclerview(){
@@ -74,10 +84,18 @@ class VibrationSelectActivity : AppCompatActivity() {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-
+            vibrationAdapter.filter.filter(newText)
+            return false
         }
     }
 
+    inner class itemClickListener:VibrationAdapter.OnItemClickListener{
+        @RequiresApi(Build.VERSION_CODES.O)
+        override fun onItemClick(v: View, pos: Int, vib: Vibration) {
+            vibrator.vibrate(VibrationEffect.createWaveform(vib.timing, -1))
+            selectedVibration = vib
+        }
+    }
     // ===== 테스트 =====
 
 }

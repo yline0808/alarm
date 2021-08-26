@@ -10,11 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Alarm">
-        <activity
-            android:name=".SetLocationActivity"
-            android:exported="true" />
+        <activity android:name=".SetLocationActivity" />
         <activity android:name=".VibrationSelectActivity" />
-        <activity android:name=".SetAlarmActivity" android:exported="true"/>
+        <activity android:name=".SetAlarmActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
