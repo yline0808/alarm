@@ -4,17 +4,22 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.selection.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import net.ddns.yline.alarm.adapter.VibrationAdapter
 import net.ddns.yline.alarm.databinding.ActivityVibrationSelectBinding
+import net.ddns.yline.alarm.detailsLookup.VibrationItemDetailsLookup
 import net.ddns.yline.alarm.table.Vibration
 
 class VibrationSelectActivity : AppCompatActivity() {
     private val binding by lazy { ActivityVibrationSelectBinding.inflate(layoutInflater) }
-    private val vibrationAdapter by lazy { VibrationAdapter(applicationContext) }
+    private val vibrationAdapter by lazy { VibrationAdapter(vibrationList) }
     private val vibrator:Vibrator by lazy { getSystemService(VIBRATOR_SERVICE) as Vibrator }
     private val vibrationList: MutableList<Vibration> = mutableListOf()
     private lateinit var selectedVibration: Vibration
@@ -29,6 +34,8 @@ class VibrationSelectActivity : AppCompatActivity() {
     }
     // ===== 기능 =====
     private fun pushVibrationType() {
+        val noVibrationTiming = longArrayOf()
+        vibrationList.add(Vibration(resources.getString(R.string.textview_default_select), noVibrationTiming))
         val basicVibrationTiming = longArrayOf(100, 1000, 900)
         vibrationList.add(Vibration(resources.getString(R.string.vibration_basic), basicVibrationTiming))
         val highVibrationTiming = longArrayOf(100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100)
@@ -47,7 +54,6 @@ class VibrationSelectActivity : AppCompatActivity() {
 
     private fun setListener(){
         binding.apply {
-            searchVibration.setOnQueryTextListener(queryTextListener())
             vibrationAdapter.setOnItemClickListener(itemClickListener())
             clickListener().also {
                 buttonBack.setOnClickListener(it)
@@ -57,7 +63,18 @@ class VibrationSelectActivity : AppCompatActivity() {
     }
 
     private fun setVibrationRecyclerview(){
+        binding.recyclerviewVibrationList.layoutManager = LinearLayoutManager(this)
+        binding.recyclerviewVibrationList.adapter = vibrationAdapter
 
+        val tracker = SelectionTracker.Builder<Long>(
+            "mySelection",
+            binding.recyclerviewVibrationList,
+            StableIdKeyProvider(binding.recyclerviewVibrationList),
+            VibrationItemDetailsLookup(binding.recyclerviewVibrationList),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(SelectionPredicates.createSelectAnything()).build()
+
+        vibrationAdapter.tracker = tracker
     }
 
     // ===== 리스너 =====
@@ -78,24 +95,12 @@ class VibrationSelectActivity : AppCompatActivity() {
         }
     }
 
-    inner class queryTextListener:SearchView.OnQueryTextListener{
-        override fun onQueryTextSubmit(query: String?): Boolean {
-            return false
-        }
-
-        override fun onQueryTextChange(newText: String?): Boolean {
-            vibrationAdapter.filter.filter(newText)
-            return false
-        }
-    }
-
     inner class itemClickListener:VibrationAdapter.OnItemClickListener{
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onItemClick(v: View, pos: Int, vib: Vibration) {
             vibrator.vibrate(VibrationEffect.createWaveform(vib.timing, -1))
+            Log.d("|||", "${pos}, ${vib}")
             selectedVibration = vib
         }
     }
-    // ===== 테스트 =====
-
 }

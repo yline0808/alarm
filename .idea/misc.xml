@@ -22,7 +22,9 @@
         <entry key="app/src/main/res/layout/dialog_repeat_count.xml" value="0.27098362590400743" />
         <entry key="app/src/main/res/layout/item_alarm.xml" value="0.5435365270872535" />
         <entry key="app/src/main/res/layout/item_location_alarm.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/item_sound.xml" value="0.45" />
         <entry key="app/src/main/res/layout/item_sound_vibration.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/item_vibration.xml" value="0.45" />
         <entry key="app/src/main/res/layout/tab_app_setting.xml" value="0.13804457953394123" />
         <entry key="app/src/main/res/layout/tab_location_alarm_list.xml" value="0.335" />
         <entry key="app/src/main/res/layout/tab_normal_alarm_list.xml" value="0.25" />
