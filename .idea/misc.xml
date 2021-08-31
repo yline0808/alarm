@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable-v24/bg_weekend_selector.xml" value="0.375" />
         <entry key="app/src/main/res/drawable-v24/ic_circle.xml" value="0.23794871794871794" />
         <entry key="app/src/main/res/drawable-v24/ic_main.xml" value="0.21296296296296297" />
+        <entry key="app/src/main/res/drawable/bg_selected_layout.xml" value="0.1648148148148148" />
         <entry key="app/src/main/res/drawable/ripple_custom.xml" value="0.29743589743589743" />
         <entry key="app/src/main/res/layout/_activity_set_alarm.xml" value="0.335" />
         <entry key="app/src/main/res/layout/_activity_sound_select.xml" value="0.25" />

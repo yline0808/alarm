@@ -27,8 +27,8 @@ import java.util.*
 
 class SetAlarmActivity : AppCompatActivity() {
     private val binding by lazy { ActivitySetAlarmBinding.inflate(layoutInflater) }
-    private lateinit var selectedSong: Song
-    private lateinit var selectedVibration: Vibration
+    private var selectedSong: Song? = null
+    private var selectedVibration: Vibration? = null
     private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,7 +139,11 @@ class SetAlarmActivity : AppCompatActivity() {
                         startForSoundResult.launch(Intent(applicationContext, SoundSelectActivity::class.java))
                     }
                     constraintVibrationSet.id -> {
-                        startForVibrationResult.launch(Intent(applicationContext, VibrationSelectActivity::class.java))
+                        startForVibrationResult.launch(
+                            Intent(applicationContext, VibrationSelectActivity::class.java).apply {
+                                putExtra("selectedVibration", if(selectedVibration != null) selectedVibration else null)
+                            }
+                        )
                     }
                     constraintRepeatSet.id -> {
 //                        DialogFragment().show(supportFragmentManager, "dialog")
@@ -252,8 +256,16 @@ class SetAlarmActivity : AppCompatActivity() {
     private val startForVibrationResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result: ActivityResult ->
         when(result.resultCode){
             RESULT_OK -> {
-                val intent = result.data
-                Toast.makeText(applicationContext, "sound result ok", Toast.LENGTH_LONG).show()
+                selectedVibration = result.data?.getSerializableExtra("selectedVibration") as Vibration
+                if(selectedVibration == null){
+                    Log.e("vibration is null", "SetAlarmActivity/startForVibrationResult")
+                    Toast.makeText(applicationContext, "진동 설정 오류!\n관리자에게 문의하세요.", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(applicationContext, "설정 완료", Toast.LENGTH_SHORT).show()
+                }
+            }
+            RESULT_CANCELED -> {
+                Log.d("vibration set canceled", "SetAlarmActivity/startForVibrationResult")
             }
         }
     }
