@@ -3,7 +3,6 @@ package net.ddns.yline.alarm.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import net.ddns.yline.alarm.databinding.ItemVibrationBinding
 import net.ddns.yline.alarm.table.Vibration
@@ -13,7 +12,7 @@ class VibrationAdapter(private val vibrations: MutableList<Vibration>) : Recycle
     var lastCheckedPos:Int = 0
 
     interface OnItemClickListener {
-        fun onItemClick(v: View?, pos: Int, vib: Vibration?)
+        fun onItemClick(v: View, pos: Int, vib: Vibration)
     }
 
     fun setOnItemClickListener(listener: VibrationAdapter.OnItemClickListener) {

@@ -17,6 +17,12 @@ import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
+import com.jakewharton.rxbinding4.widget.checkedChanges
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.schedulers.Schedulers
 import net.ddns.yline.alarm.databinding.ActivitySetAlarmBinding
 import net.ddns.yline.alarm.table.Song
 import net.ddns.yline.alarm.table.Vibration
@@ -24,12 +30,14 @@ import java.lang.Exception
 import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class SetAlarmActivity : AppCompatActivity() {
     private val binding by lazy { ActivitySetAlarmBinding.inflate(layoutInflater) }
     private var selectedSong: Song? = null
     private var selectedVibration: Vibration? = null
     private lateinit var mediaPlayer: MediaPlayer
+    private val myCompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +45,11 @@ class SetAlarmActivity : AppCompatActivity() {
 
         setDefaultTime()
         setListener()
+    }
+
+    override fun onDestroy() {
+        this.myCompositeDisposable.clear()
+        super.onDestroy()
     }
 
     // ===== 기능 =====
@@ -80,6 +93,7 @@ class SetAlarmActivity : AppCompatActivity() {
                 constraintSoundSet.setOnClickListener(it)
                 constraintVibrationSet.setOnClickListener(it)
                 constraintRepeatSet.setOnClickListener(it)
+                switchVibration.setOnClickListener(it)
             }
             checkedChangeListener().also {
                 togglebuttonSelSun.setOnCheckedChangeListener(it)
@@ -90,6 +104,7 @@ class SetAlarmActivity : AppCompatActivity() {
                 togglebuttonSelFri.setOnCheckedChangeListener(it)
                 togglebuttonSelSat.setOnCheckedChangeListener(it)
             }
+
             timepickerTimeSet.setOnTimeChangedListener(timeChangedListener())
             seekbarSound.setOnSeekBarChangeListener(seekBarChangeListener())
         }
@@ -120,6 +135,50 @@ class SetAlarmActivity : AppCompatActivity() {
         }
     }
 
+    private fun vibrationSwitchAction(){
+//        ===test===
+//        val switchChangeObservable = binding.switchVibration.checkedChanges()
+//        val switchChangeSubscription:Disposable =
+//            switchChangeObservable.debounce( 800, TimeUnit.MICROSECONDS )
+//                .subscribeOn(Schedulers.io())
+//                .subscribeBy {
+//
+//                }
+//        myCompositeDisposable.add(switchChangeSubscription)
+
+        binding.run {
+            if(textviewVibrationTitle.text == resources.getString(R.string.textview_default_select) && switchVibration.isChecked){
+                switchVibration.isChecked = false
+                Toast.makeText(applicationContext, "선택된 진동이 없습니다.", Toast.LENGTH_SHORT).show()
+                Log.d("vibration selection null", "SetAlarmActivity/vibrationSwitchAction")
+            }
+        }
+    }
+
+    private fun vibrationSetAction(){
+        startForVibrationResult.launch(
+            Intent(applicationContext, VibrationSelectActivity::class.java).apply {
+                putExtra("selectedVibration", if(selectedVibration != null) selectedVibration else null)
+            }
+        )
+    }
+
+    private fun repeatSetAction(){
+        val repeatSetDialogFragment:DialogFragment =
+//                        DialogFragment().show(supportFragmentManager, "dialog")
+//                        startActivity(Intent(applicationContext, ))
+    }
+
+    private fun alarmSaveAction(){
+        Toast.makeText(applicationContext, "save!!!", Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
+    private fun clickDefaultAction(v:View?){
+        Log.e("|||null listener error", "${v.toString()}")
+        Toast.makeText(applicationContext, "클릭 오류!\n관리자에게 문의해주세요.", Toast.LENGTH_SHORT).show()
+    }
+
     // ===== 리스너 =====
     inner class clickListener:View.OnClickListener{
         override fun onClick(v: View?) {
@@ -127,32 +186,16 @@ class SetAlarmActivity : AppCompatActivity() {
                 when(v?.id){
                     imageButtonBack.id -> finish()
                     buttonAlarmDelete.id -> finish()
-                    buttonAlarmSave.id -> {
-                        Toast.makeText(applicationContext, "save!!!", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
+                    buttonAlarmSave.id -> alarmSaveAction()
                     buttonTimeAll.id -> convWeekCheck(booleanArrayOf(true, true, true, true, true, true, true))
                     buttonTimeWeekday.id -> convWeekCheck(booleanArrayOf(false, true, true, true, true, true, false))
                     buttonTimeWeekend.id -> convWeekCheck(booleanArrayOf(true, false, false, false, false, false, true))
                     constraintNameSet.id -> setTitleDialog()
-                    constraintSoundSet.id -> {
-                        startForSoundResult.launch(Intent(applicationContext, SoundSelectActivity::class.java))
-                    }
-                    constraintVibrationSet.id -> {
-                        startForVibrationResult.launch(
-                            Intent(applicationContext, VibrationSelectActivity::class.java).apply {
-                                putExtra("selectedVibration", if(selectedVibration != null) selectedVibration else null)
-                            }
-                        )
-                    }
-                    constraintRepeatSet.id -> {
-//                        DialogFragment().show(supportFragmentManager, "dialog")
-//                        startActivity(Intent(applicationContext, ))
-                    }
-                    else -> {
-                        Log.e("|||null listener error", "${v.toString()}")
-                        Toast.makeText(applicationContext, "클릭 오류!\n관리자에게 문의해주세요.", Toast.LENGTH_SHORT).show()
-                    }
+                    constraintSoundSet.id -> startForSoundResult.launch(Intent(applicationContext, SoundSelectActivity::class.java))
+                    constraintVibrationSet.id -> vibrationSetAction()
+                    constraintRepeatSet.id -> repeatSetAction()
+                    switchVibration.id -> vibrationSwitchAction()
+                    else -> clickDefaultAction(v)
                 }
             }
         }
@@ -236,8 +279,8 @@ class SetAlarmActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "알람 제목을 설정하지 않았습니다.", Toast.LENGTH_SHORT).show()
                 }else{
                     binding.textviewNameTitle.text = pretreatmentAlarmTitle(editText.text.toString())
-                    Log.d("|||text len", binding.textviewNameTitle.text.length.toString())
                     binding.switchName.isChecked = true
+                    Log.d("|||text len", binding.textviewNameTitle.text.length.toString())
                 }
             })
         }.show()
@@ -258,9 +301,14 @@ class SetAlarmActivity : AppCompatActivity() {
             RESULT_OK -> {
                 selectedVibration = result.data?.getSerializableExtra("selectedVibration") as Vibration
                 if(selectedVibration == null){
+                    binding.switchVibration.isChecked = false
                     Log.e("vibration is null", "SetAlarmActivity/startForVibrationResult")
                     Toast.makeText(applicationContext, "진동 설정 오류!\n관리자에게 문의하세요.", Toast.LENGTH_SHORT).show()
                 }else{
+                    binding.run {
+                        textviewVibrationTitle.text = selectedVibration!!.name
+                        switchVibration.isChecked = true
+                    }
                     Toast.makeText(applicationContext, "설정 완료", Toast.LENGTH_SHORT).show()
                 }
             }

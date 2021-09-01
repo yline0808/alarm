@@ -1,9 +1,13 @@
 package net.ddns.yline.alarm
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.ddns.yline.alarm.adapter.VibrationAdapter
@@ -28,8 +32,6 @@ class VibrationSelectActivity : AppCompatActivity() {
     }
     // ===== 기능 =====
     private fun pushVibrationType() {
-        val noVibrationTiming = longArrayOf()
-        vibrationList.add(Vibration(resources.getString(R.string.textview_default_select), noVibrationTiming))
         val basicVibrationTiming = longArrayOf(100, 1000, 900)
         vibrationList.add(Vibration(resources.getString(R.string.vibration_basic), basicVibrationTiming))
         val highVibrationTiming = longArrayOf(100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100)
@@ -57,7 +59,10 @@ class VibrationSelectActivity : AppCompatActivity() {
 
     private fun setVibrationRecyclerview(){
         val selectedIdx = vibrationList.indexOfFirst { it.name == selectedVibration?.name }
-        vibrationAdapter.lastCheckedPos = if(selectedIdx == -1) 0 else selectedIdx
+        vibrationAdapter.apply {
+            lastCheckedPos = if(selectedIdx == -1) 0 else selectedIdx
+            setOnItemClickListener(itemClickListener())
+        }
         binding.recyclerviewVibrationList.layoutManager = LinearLayoutManager(this)
         binding.recyclerviewVibrationList.adapter = vibrationAdapter
         vibrationAdapter.notifyDataSetChanged()
@@ -65,7 +70,7 @@ class VibrationSelectActivity : AppCompatActivity() {
 
     private fun saveAction(){
         vibrator.cancel()
-        setResult(RESULT_OK, Intent().putExtra("selectedVibration", vibrationList[vibrationAdapter.lastCheckedPos]))
+        setResult(RESULT_OK, Intent().putExtra("selectedVibration", selectedVibration))
         finish()
     }
 
@@ -84,6 +89,15 @@ class VibrationSelectActivity : AppCompatActivity() {
                     buttonBack.id -> backAction()
                 }
             }
+        }
+    }
+
+    inner class itemClickListener:VibrationAdapter.OnItemClickListener{
+        @RequiresApi(Build.VERSION_CODES.O)
+        override fun onItemClick(v: View, pos: Int, vib: Vibration) {
+            vibrator.vibrate(VibrationEffect.createWaveform(vib.timing, -1))
+            selectedVibration = vib
+            Log.d("vibration", "${vib}")
         }
     }
 }
