@@ -17,8 +17,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraint_alarm_item"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:padding="6dp">
+                android:layout_height="@dimen/alarm_item_height"
+                android:padding="@dimen/margin_6">
 
                 <TextView
                     android:id="@+id/textview_time_am_pm"
@@ -37,8 +37,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/default_time"
                     android:textColor="@color/black"
-                    android:textSize="14pt"
-                    android:layout_marginStart="10dp"
+                    android:textSize="@dimen/time_text"
+                    android:layout_marginStart="@dimen/margin_10"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/textview_time_am_pm"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sun"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="@dimen/margin_4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/textview_week_mon"/>
@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mon"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="@dimen/margin_4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/textview_week_tue"/>
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tue"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="@dimen/margin_4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/textview_week_wed"/>
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/wed"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="@dimen/margin_4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/textview_week_thu"/>
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/thu"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="@dimen/margin_4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/textview_week_fri"/>
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/fri"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="@dimen/margin_4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/textview_week_sat"/>
@@ -108,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sat"
-                    android:layout_marginEnd="6dp"
+                    android:layout_marginEnd="@dimen/margin_6"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/switch_item"/>
@@ -130,14 +130,14 @@
 
     <ImageButton
         android:id="@+id/button_alarm_add"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        android:layout_width="@dimen/alarm_add_icon"
+        android:layout_height="@dimen/alarm_add_icon"
         android:scaleType="fitXY"
         android:src="@drawable/ic_add_alarm"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_gravity="bottom|right"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="@dimen/margin_10"
+        android:layout_marginBottom="@dimen/margin_10"
         android:contentDescription="@string/add_normal_alarm_description"
         tools:ignore="RtlHardcoded" />
 

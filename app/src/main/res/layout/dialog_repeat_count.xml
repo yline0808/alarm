@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp">
+    android:padding="@dimen/margin_8">
 
     <TextView
         android:id="@+id/textview_repeat_title"
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/repeat_title"
         android:textColor="@color/black"
-        android:textSize="10pt"
+        android:textSize="@dimen/topbar_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/gap"
-        android:textSize="8pt"
+        android:textSize="@dimen/textview"
         app:layout_constraintBottom_toTopOf="@id/button_repeat_cancel"
         app:layout_constraintEnd_toStartOf="@id/picker_gap_select"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/repeat"
-        android:textSize="8pt"
+        android:textSize="@dimen/textview"
         app:layout_constraintBottom_toTopOf="@id/button_repeat_set"
         app:layout_constraintEnd_toStartOf="@id/picker_repeat_select"
         app:layout_constraintStart_toEndOf="@id/picker_gap_select"
@@ -59,13 +59,13 @@
 
     <android.widget.Button
         android:id="@+id/button_repeat_cancel"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/default_0"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_delete_btn"
         android:foreground="?attr/selectableItemBackground"
         android:text="@string/cancel"
         android:textColor="@color/white"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/margin_4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_repeat_set"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,12 +73,12 @@
 
     <Button
         android:id="@+id/button_repeat_set"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/default_0"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_ok_btn"
         android:foreground="?attr/selectableItemBackground"
         android:text="@string/ok"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/margin_4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_repeat_cancel"

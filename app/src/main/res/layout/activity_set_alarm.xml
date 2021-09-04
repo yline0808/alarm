@@ -19,8 +19,8 @@
 
         <ImageButton
             android:id="@+id/image_button_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/icon_default"
+            android:layout_height="@dimen/icon_default"
             android:src="@drawable/ic_left_arrow"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/back_description"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/top_default_time"
-            android:textSize="10pt"
+            android:textSize="@dimen/topbar_text"
             android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
         android:id="@+id/constraint_time_set"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/margin_8"
         app:layout_constraintBottom_toTopOf="@id/scrollview_time_set"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,8 +64,8 @@
 
         <TimePicker
             android:id="@+id/timepicker_time_set"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/default_0"
             android:timePickerMode="spinner"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +74,7 @@
 
         <Button
             android:id="@+id/button_time_all"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/default_0"
             android:layout_height="wrap_content"
             android:text="@string/all_day"
             app:layout_constraintBottom_toTopOf="@id/button_time_weekday"
@@ -84,7 +84,7 @@
 
         <Button
             android:id="@+id/button_time_weekday"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/default_0"
             android:layout_height="wrap_content"
             android:text="@string/weekday"
             app:layout_constraintBottom_toTopOf="@id/button_time_weekend"
@@ -94,7 +94,7 @@
 
         <Button
             android:id="@+id/button_time_weekend"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/default_0"
             android:layout_height="wrap_content"
             android:text="@string/weekend"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -107,7 +107,7 @@
     <ScrollView
         android:id="@+id/scrollview_time_set"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/default_0"
         app:layout_constraintBottom_toTopOf="@id/button_alarm_save"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -126,110 +126,100 @@
 
                 <ToggleButton
                     android:id="@+id/togglebutton_sel_sun"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="4dp"
+                    android:layout_width="@dimen/icon_default"
+                    android:layout_height="@dimen/icon_default"
+                    android:layout_margin="@dimen/margin_4"
                     android:background="@drawable/bg_weekend_selector"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:textColor="@color/red"
                     android:textOff="@string/sun"
                     android:textOn="@string/sun"
-                    android:textSize="8pt" />
+                    android:textSize="@dimen/week_text" />
 
                 <ToggleButton
                     android:id="@+id/togglebutton_sel_mon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="4dp"
+                    android:layout_width="@dimen/icon_default"
+                    android:layout_height="@dimen/icon_default"
+                    android:layout_margin="@dimen/margin_4"
                     android:background="@drawable/bg_weekend_selector"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:checked="true"
                     android:textColor="@color/main"
                     android:textOff="@string/mon"
                     android:textOn="@string/mon"
-                    android:textSize="8pt" />
+                    android:textSize="@dimen/week_text" />
 
                 <ToggleButton
                     android:id="@+id/togglebutton_sel_tue"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="4dp"
+                    android:layout_width="@dimen/icon_default"
+                    android:layout_height="@dimen/icon_default"
+                    android:layout_margin="@dimen/margin_4"
                     android:background="@drawable/bg_weekend_selector"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:checked="true"
                     android:textColor="@color/main"
                     android:textOff="@string/tue"
                     android:textOn="@string/tue"
-                    android:textSize="8pt" />
+                    android:textSize="@dimen/week_text" />
 
                 <ToggleButton
                     android:id="@+id/togglebutton_sel_wed"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="4dp"
+                    android:layout_width="@dimen/icon_default"
+                    android:layout_height="@dimen/icon_default"
+                    android:layout_margin="@dimen/margin_4"
                     android:background="@drawable/bg_weekend_selector"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:checked="true"
                     android:textColor="@color/main"
                     android:textOff="@string/wed"
                     android:textOn="@string/wed"
-                    android:textSize="8pt" />
+                    android:textSize="@dimen/week_text" />
 
                 <ToggleButton
                     android:id="@+id/togglebutton_sel_thu"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="4dp"
+                    android:layout_width="@dimen/icon_default"
+                    android:layout_height="@dimen/icon_default"
+                    android:layout_margin="@dimen/margin_4"
                     android:background="@drawable/bg_weekend_selector"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:checked="true"
                     android:textColor="@color/main"
                     android:textOff="@string/thu"
                     android:textOn="@string/thu"
-                    android:textSize="8pt" />
+                    android:textSize="@dimen/week_text" />
 
                 <ToggleButton
                     android:id="@+id/togglebutton_sel_fri"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="4dp"
+                    android:layout_width="@dimen/icon_default"
+                    android:layout_height="@dimen/icon_default"
+                    android:layout_margin="@dimen/margin_4"
                     android:background="@drawable/bg_weekend_selector"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:checked="true"
                     android:textColor="@color/main"
                     android:textOff="@string/fri"
                     android:textOn="@string/fri"
-                    android:textSize="8pt" />
+                    android:textSize="@dimen/week_text" />
 
                 <ToggleButton
                     android:id="@+id/togglebutton_sel_sat"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="4dp"
+                    android:layout_width="@dimen/icon_default"
+                    android:layout_height="@dimen/icon_default"
+                    android:layout_margin="@dimen/margin_4"
                     android:background="@drawable/bg_weekend_selector"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:textColor="@color/blue"
                     android:textOff="@string/sat"
                     android:textOn="@string/sat"
-                    android:textSize="8pt" />
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/button_calendar_set"-->
-<!--                    android:layout_width="36dp"-->
-<!--                    android:layout_height="36dp"-->
-<!--                    android:layout_marginStart="10dp"-->
-<!--                    android:scaleType="fitXY"-->
-<!--                    android:src="@drawable/ic_calendar_50"-->
-<!--                    android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--                    android:contentDescription="@string/calendar_description" />-->
+                    android:textSize="@dimen/week_text" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="@dimen/line_thick"
+                android:layout_marginEnd="@dimen/margin_8"
+                android:layout_marginStart="@dimen/margin_8"
                 android:background="@color/txt_deactivate_1" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -239,7 +229,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackground"
-                android:padding="8dp">
+                android:padding="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/textview_sound_text"
@@ -247,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/alarm_sound"
                     android:textColor="@color/black"
-                    android:textSize="10pt"
+                    android:textSize="@dimen/title_text"
                     app:layout_constraintBottom_toTopOf="@id/textview_sound_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -263,9 +253,9 @@
                     app:layout_constraintTop_toBottomOf="@id/textview_sound_text" />
 
                 <View
-                    android:layout_width="0.3dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="8dp"
+                    android:layout_width="@dimen/line_thick"
+                    android:layout_height="@dimen/default_0"
+                    android:layout_margin="@dimen/margin_8"
                     android:background="@color/txt_deactivate_1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/switch_sound"
@@ -285,14 +275,14 @@
             <SeekBar
                 android:id="@+id/seekbar_sound"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/seekbar_Height"
                 android:progress="70"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="@dimen/line_thick"
+                android:layout_marginEnd="@dimen/margin_8"
+                android:layout_marginStart="@dimen/margin_8"
                 android:background="@color/txt_deactivate_1" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -302,7 +292,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackground"
-                android:padding="8dp">
+                android:padding="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/textview_vibration_text"
@@ -310,7 +300,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/alarm_vibration"
                     android:textColor="@color/black"
-                    android:textSize="10pt"
+                    android:textSize="@dimen/title_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/textview_vibration_title"/>
@@ -325,10 +315,10 @@
                     app:layout_constraintTop_toBottomOf="@id/textview_vibration_text" />
 
                 <View
-                    android:layout_width="0.3dp"
-                    android:layout_height="0dp"
+                    android:layout_width="@dimen/line_thick"
+                    android:layout_height="@dimen/default_0"
                     android:background="@color/txt_deactivate_1"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/margin_8"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/switch_vibration"/>
@@ -346,9 +336,9 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="@dimen/line_thick"
+                android:layout_marginEnd="@dimen/margin_8"
+                android:layout_marginStart="@dimen/margin_8"
                 android:background="@color/txt_deactivate_1" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -358,14 +348,14 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackground"
-                android:padding="8dp">
+                android:padding="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/textview_name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/alarm_name"
-                    android:textSize="10pt"
+                    android:textSize="@dimen/title_text"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -382,9 +372,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <View
-                    android:layout_width="0.3dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="8dp"
+                    android:layout_width="@dimen/line_thick"
+                    android:layout_height="@dimen/default_0"
+                    android:layout_margin="@dimen/margin_8"
                     android:background="@color/txt_deactivate_1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -403,9 +393,9 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="@dimen/line_thick"
+                android:layout_marginEnd="@dimen/margin_8"
+                android:layout_marginStart="@dimen/margin_8"
                 android:background="@color/txt_deactivate_1" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -415,14 +405,14 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackground"
-                android:padding="8dp">
+                android:padding="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/textview_repeat_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/alarm_repeat"
-                    android:textSize="10pt"
+                    android:textSize="@dimen/title_text"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -439,9 +429,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <View
-                    android:layout_width="0.3dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="8dp"
+                    android:layout_width="@dimen/line_thick"
+                    android:layout_height="@dimen/default_0"
+                    android:layout_margin="@dimen/margin_8"
                     android:background="@color/txt_deactivate_1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -460,20 +450,20 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="@dimen/line_thick"
+                android:layout_marginEnd="@dimen/margin_8"
+                android:layout_marginStart="@dimen/margin_8"
                 android:background="@color/txt_deactivate_1" />
 
             <android.widget.Button
                 android:id="@+id/button_alarm_delete"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="@dimen/button_height_46"
                 android:text="@string/button_delete"
                 android:background="@drawable/bg_delete_btn"
                 android:foreground="?attr/selectableItemBackground"
                 android:textColor="@color/white"
-                android:layout_margin="8dp"/>
+                android:layout_margin="@dimen/margin_8"/>
 
         </LinearLayout>
 
@@ -482,11 +472,11 @@
     <Button
         android:id="@+id/button_alarm_save"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="@dimen/button_height_46"
         android:background="@drawable/bg_ok_btn"
         android:foreground="?attr/selectableItemBackground"
         android:text="@string/button_save"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/margin_8"
         app:layout_constraintTop_toBottomOf="@id/scrollview_time_set"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

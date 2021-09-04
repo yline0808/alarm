@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constraint_alarm_item"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:padding="6dp">
+    android:layout_height="@dimen/alarm_item_height"
+    android:padding="@dimen/margin_6">
 
     <TextView
         android:id="@+id/textview_distance"
@@ -21,20 +21,21 @@
         android:id="@+id/textview_area"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_10"
         android:text="@string/default_area"
         android:textColor="@color/black"
-        android:textSize="14pt"
-        android:layout_marginStart="10dp"
+        android:textSize="@dimen/location_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/textview_distance"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textview_time_interval"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/default_time_interval"
-        android:layout_marginEnd="6dp"
+        android:layout_marginEnd="@dimen/margin_6"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/switch_item"
         app:layout_constraintBottom_toTopOf="@id/textview_week_wed"/>
@@ -44,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sun"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="@dimen/margin_4"
         app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_mon"/>
@@ -54,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/mon"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="@dimen/margin_4"
         app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_tue"/>
@@ -64,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tue"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="@dimen/margin_4"
         app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_wed"/>
@@ -74,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/wed"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="@dimen/margin_4"
         app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_thu"/>
@@ -84,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/thu"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="@dimen/margin_4"
         app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_fri"/>
@@ -94,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fri"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="@dimen/margin_4"
         app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textview_week_sat"/>
@@ -104,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sat"
-        android:layout_marginEnd="6dp"
+        android:layout_marginEnd="@dimen/margin_6"
         app:layout_constraintTop_toBottomOf="@id/textview_time_interval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/switch_item"/>

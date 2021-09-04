@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/topbar_height"
         android:background="@color/main"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,8 +20,8 @@
 
         <ImageButton
             android:id="@+id/button_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/icon_default"
+            android:layout_height="@dimen/icon_default"
             android:src="@drawable/ic_left_arrow"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,9 +31,9 @@
 
         <ImageButton
             android:id="@+id/button_vibration_save"
-            android:layout_marginEnd="8dp"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:layout_width="@dimen/save_icon"
+            android:layout_height="@dimen/save_icon"
             android:scaleType="fitXY"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_save"
@@ -47,8 +47,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_vibration_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="8dp"
+        android:layout_height="@dimen/default_0"
+        android:padding="@dimen/margin_8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
