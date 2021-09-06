@@ -286,12 +286,16 @@ class SetAlarmActivity : AppCompatActivity() {
         }
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {
-            mediaPlayer.run {
-                if(this != null && isPlaying){
-                    stop()
+            try{
+                mediaPlayer.run {
+                    if(this != null && isPlaying){
+                        stop()
+                        release()
+                    }
                     release()
                 }
-                release()
+            }catch (e:UninitializedPropertyAccessException){
+                Log.e("mediaPlayer error", "SetAlarmActivity/SeekbarChangeListener\n${e.stackTrace}")
             }
         }
     }

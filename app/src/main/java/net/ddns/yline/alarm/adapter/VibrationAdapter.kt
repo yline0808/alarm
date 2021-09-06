@@ -41,9 +41,8 @@ class VibrationAdapter(private val vibrations: MutableList<Vibration>) : Recycle
             }
             itemView.setOnClickListener {
                 notifyItemChanged(lastCheckedPos)
+                notifyItemChanged(bindingAdapterPosition)
                 lastCheckedPos = bindingAdapterPosition
-                notifyItemChanged(lastCheckedPos)
-
                 mListener.onItemClick(it, bindingAdapterPosition, item)
             }
         }
