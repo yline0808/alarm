@@ -49,4 +49,7 @@
     <string name="default_km">1.0km</string>
     <string name="default_area">고양시</string>
     <string name="main_option">메인 설정입니다.</string>
+    <string name="textview_repeat_text">%1$s분, %2$s회</string>
+    <string name="setting_complete">설정 완료</string>
+    <string name="setting_error">설정 오류\\n앱 관리자에게 문의하세요.</string>
 </resources>

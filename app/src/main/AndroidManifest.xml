@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Alarm">
         <activity android:name=".SetLocationActivity" />
+        <activity android:name=".SoundSelectActivity" />
         <activity android:name=".VibrationSelectActivity" />
         <activity android:name=".SetAlarmActivity" />
         <activity android:name=".MainActivity">

@@ -1,77 +1,57 @@
 package net.ddns.yline.alarm.fragment
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import net.ddns.yline.alarm.R
 import net.ddns.yline.alarm.databinding.DialogRepeatCountBinding
-import java.lang.Exception
 
 class RepeatDialogFragment : DialogFragment() {
-    interface OnCompleteListener {
-        fun onInputedData(minute: String?, count: String?)
-    }
-
-    private var mCallback: OnCompleteListener? = null
+//    alarm repeat set button listener
+    private lateinit var mCallback: OnCompleteListener
+//    binding
     private lateinit var binding:DialogRepeatCountBinding
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            mCallback = context as OnCompleteListener
-        } catch (e: Exception) {
-            Log.e("onAttach", e.toString())
-        }
+//    alarm repeat set button interfase
+    interface OnCompleteListener {
+        fun onButtonRepeatSetClicked(minute: String?, count: String?)
     }
 
+//    ===== override fun =====
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DialogRepeatCountBinding.inflate(inflater, container, false)
-        val view = binding.root
-
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         binding.apply {
-            buttonRepeatSet
+            pickerRepeatSelect.run {
+                minValue = 1
+                maxValue = 4
+                wrapSelectorWheel = false
+                setFormatter { formatCount(it) }
+            }
+            pickerGapSelect.run {
+                minValue = 1
+                maxValue = 5
+                wrapSelectorWheel = false
+                setFormatter{ formatMinute(it) }
+            }
+            buttonRepeatSet.setOnClickListener{
+                dismiss()
+                mCallback.onButtonRepeatSetClicked(formatMinute(pickerGapSelect.value), formatCount(pickerRepeatSelect.value))
+            }
+            buttonRepeatCancel.setOnClickListener { dismiss() }
         }
 
-        return view
+        return binding.root
     }
 
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val binding = DialogRepeatCountBinding.inflate(LayoutInflater.from(parentFragment.context), parentFragment, false)
-//
-//        val builder =
-//
-//        val builder = AlertDialog.Builder(activity)
-//        val inflater = activity!!.layoutInflater
-//        val view: View = inflater.inflate(R.layout.dialog_repeat_count, null)
-//        builder.setView(view)
-//        val npMinute = view.findViewById<View>(R.id.npMinute) as NumberPicker
-//        val npCount = view.findViewById<View>(R.id.npCount) as NumberPicker
-//        val btnOk = view.findViewById<View>(R.id.btnOk) as Button
-//        val btnCancel = view.findViewById<View>(R.id.btnCancel) as Button
-//        npMinute.minValue = 1
-//        npMinute.maxValue = 5
-//        npMinute.wrapSelectorWheel = false
-//        npMinute.setFormatter { value -> formatMinute(value) }
-//        npCount.minValue = 1
-//        npCount.maxValue = 4
-//        npCount.wrapSelectorWheel = false
-//        npCount.setFormatter { value -> formatCount(value) }
-//        btnOk.setOnClickListener {
-//            dismiss()
-//            mCallback!!.onInputedData(formatMinute(npMinute.value), formatCount(npCount.value))
-//        }
-//        btnCancel.setOnClickListener { dismiss() }
-//        return builder.create()
-//    }
+//    ===== function =====
+    fun setButtonClickListener(buttonClickListener:OnCompleteListener) {
+        this.mCallback = buttonClickListener
+    }
 
+//    minute picker formatter
     private fun formatMinute(value: Int): String {
         return when (value) {
             1 -> "5"
@@ -83,6 +63,7 @@ class RepeatDialogFragment : DialogFragment() {
         }
     }
 
+//    repeat count picker formatter
     private fun formatCount(value: Int): String {
         return when (value) {
             1 -> "3"

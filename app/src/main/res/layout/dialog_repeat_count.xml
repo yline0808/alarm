@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/margin_8">
+    android:padding="@dimen/margin_8"
+    android:layout_margin="@dimen/margin_10">
 
     <TextView
         android:id="@+id/textview_repeat_title"
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:text="@string/gap"
         android:textSize="@dimen/textview"
+        android:layout_margin="@dimen/margin_10"
         app:layout_constraintBottom_toTopOf="@id/button_repeat_cancel"
         app:layout_constraintEnd_toStartOf="@id/picker_gap_select"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +44,7 @@
         android:layout_height="wrap_content"
         android:text="@string/repeat"
         android:textSize="@dimen/textview"
+        android:layout_margin="@dimen/margin_10"
         app:layout_constraintBottom_toTopOf="@id/button_repeat_set"
         app:layout_constraintEnd_toStartOf="@id/picker_repeat_select"
         app:layout_constraintStart_toEndOf="@id/picker_gap_select"
@@ -52,6 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants"
+        android:layout_marginEnd="@dimen/margin_10"
         app:layout_constraintTop_toBottomOf="@id/textview_repeat_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/button_repeat_set"

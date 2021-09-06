@@ -64,4 +64,7 @@
     <string name="default_area">Goyang-si</string>
 
     <string name="main_option">This is the main setting.</string>
+    <string name="textview_repeat_text">%1$sminute, %2$stimes</string>
+    <string name="setting_complete">setting complete</string>
+    <string name="setting_error">setting error\\nContact app administrator.</string>
 </resources>

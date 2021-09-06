@@ -50,7 +50,7 @@ class VibrationSelectActivity : AppCompatActivity() {
 
     private fun setListener(){
         binding.apply {
-            clickListener().also {
+            ClickListener().also {
                 buttonBack.setOnClickListener(it)
                 buttonVibrationSave.setOnClickListener(it)
             }
@@ -61,16 +61,15 @@ class VibrationSelectActivity : AppCompatActivity() {
         val selectedIdx = vibrationList.indexOfFirst { it.name == selectedVibration?.name }
         vibrationAdapter.apply {
             lastCheckedPos = if(selectedIdx == -1) 0 else selectedIdx
-            setOnItemClickListener(itemClickListener())
+            setOnItemClickListener(ItemClickListener())
         }
         binding.recyclerviewVibrationList.layoutManager = LinearLayoutManager(this)
         binding.recyclerviewVibrationList.adapter = vibrationAdapter
-        vibrationAdapter.notifyDataSetChanged()
     }
 
     private fun saveAction(){
         vibrator.cancel()
-        setResult(RESULT_OK, Intent().putExtra("selectedVibration", selectedVibration))
+        setResult(RESULT_OK, intent.putExtra("selectedVibration", selectedVibration))
         finish()
     }
 
@@ -81,9 +80,9 @@ class VibrationSelectActivity : AppCompatActivity() {
     }
 
     // ===== 리스너 =====
-    inner class clickListener:View.OnClickListener{
+    inner class ClickListener:View.OnClickListener{
         override fun onClick(v: View) {
-            binding.run {
+            binding.apply {
                 when(v.id){
                     buttonVibrationSave.id -> saveAction()
                     buttonBack.id -> backAction()
@@ -92,12 +91,11 @@ class VibrationSelectActivity : AppCompatActivity() {
         }
     }
 
-    inner class itemClickListener:VibrationAdapter.OnItemClickListener{
+    inner class ItemClickListener:VibrationAdapter.OnItemClickListener{
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onItemClick(v: View, pos: Int, vib: Vibration) {
             vibrator.vibrate(VibrationEffect.createWaveform(vib.timing, -1))
             selectedVibration = vib
-            Log.d("vibration", "${vib}")
         }
     }
 }

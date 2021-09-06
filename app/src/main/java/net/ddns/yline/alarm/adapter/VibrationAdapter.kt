@@ -40,8 +40,9 @@ class VibrationAdapter(private val vibrations: MutableList<Vibration>) : Recycle
                 imageviewItemCheck.visibility = if(isSelected) View.VISIBLE else View.INVISIBLE
             }
             itemView.setOnClickListener {
+                notifyItemChanged(lastCheckedPos)
                 lastCheckedPos = bindingAdapterPosition
-                notifyDataSetChanged()
+                notifyItemChanged(lastCheckedPos)
 
                 mListener.onItemClick(it, bindingAdapterPosition, item)
             }

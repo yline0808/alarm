@@ -17,28 +17,24 @@ import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
-import com.jakewharton.rxbinding4.widget.checkedChanges
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.kotlin.subscribeBy
-import io.reactivex.rxjava3.schedulers.Schedulers
 import net.ddns.yline.alarm.databinding.ActivitySetAlarmBinding
+import net.ddns.yline.alarm.fragment.RepeatDialogFragment
 import net.ddns.yline.alarm.table.Song
 import net.ddns.yline.alarm.table.Vibration
 import java.lang.Exception
 import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class SetAlarmActivity : AppCompatActivity() {
     private val binding by lazy { ActivitySetAlarmBinding.inflate(layoutInflater) }
-    private var selectedSong: Song? = null
+    private var selectedSound: Song? = null
     private var selectedVibration: Vibration? = null
-    private lateinit var mediaPlayer: MediaPlayer
     private val myCompositeDisposable = CompositeDisposable()
+    private lateinit var mediaPlayer: MediaPlayer
 
+    // ===== override function =====
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -52,7 +48,7 @@ class SetAlarmActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    // ===== 기능 =====
+    // ===== function =====
     private fun setDefaultTime(){
         val now:String = SimpleDateFormat("H:mm").format(Date(System.currentTimeMillis()))
         val h:Int = now.substring(0, now.indexOf(":")).toInt()
@@ -64,6 +60,36 @@ class SetAlarmActivity : AppCompatActivity() {
         }
         binding.textviewTopTime.text = convTimeToString(h, m)
         binding.textviewTopWeek.text = convWeekInfo()
+    }
+
+    private fun setListener(){
+        with(binding) {
+            ClickListener().also {
+                imageButtonBack.setOnClickListener(it)
+                buttonAlarmSave.setOnClickListener(it)
+                buttonAlarmDelete.setOnClickListener(it)
+                buttonTimeAll.setOnClickListener(it)
+                buttonTimeWeekday.setOnClickListener(it)
+                buttonTimeWeekend.setOnClickListener(it)
+                constraintNameSet.setOnClickListener(it)
+                constraintSoundSet.setOnClickListener(it)
+                constraintVibrationSet.setOnClickListener(it)
+                constraintRepeatSet.setOnClickListener(it)
+                switchVibration.setOnClickListener(it)
+            }
+            CheckedChangeListener().also {
+                togglebuttonSelSun.setOnCheckedChangeListener(it)
+                togglebuttonSelMon.setOnCheckedChangeListener(it)
+                togglebuttonSelTue.setOnCheckedChangeListener(it)
+                togglebuttonSelWed.setOnCheckedChangeListener(it)
+                togglebuttonSelThu.setOnCheckedChangeListener(it)
+                togglebuttonSelFri.setOnCheckedChangeListener(it)
+                togglebuttonSelSat.setOnCheckedChangeListener(it)
+            }
+
+            timepickerTimeSet.setOnTimeChangedListener(TimeChangedListener())
+            seekbarSound.setOnSeekBarChangeListener(SeekBarChangeListener())
+        }
     }
 
     private fun convTimeToString(hourOfDay:Int, minute:Int):String{
@@ -80,36 +106,6 @@ class SetAlarmActivity : AppCompatActivity() {
         }
     }
 
-    private fun setListener(){
-        with(binding) {
-            clickListener().also {
-                imageButtonBack.setOnClickListener(it)
-                buttonAlarmSave.setOnClickListener(it)
-                buttonAlarmDelete.setOnClickListener(it)
-                buttonTimeAll.setOnClickListener(it)
-                buttonTimeWeekday.setOnClickListener(it)
-                buttonTimeWeekend.setOnClickListener(it)
-                constraintNameSet.setOnClickListener(it)
-                constraintSoundSet.setOnClickListener(it)
-                constraintVibrationSet.setOnClickListener(it)
-                constraintRepeatSet.setOnClickListener(it)
-                switchVibration.setOnClickListener(it)
-            }
-            checkedChangeListener().also {
-                togglebuttonSelSun.setOnCheckedChangeListener(it)
-                togglebuttonSelMon.setOnCheckedChangeListener(it)
-                togglebuttonSelTue.setOnCheckedChangeListener(it)
-                togglebuttonSelWed.setOnCheckedChangeListener(it)
-                togglebuttonSelThu.setOnCheckedChangeListener(it)
-                togglebuttonSelFri.setOnCheckedChangeListener(it)
-                togglebuttonSelSat.setOnCheckedChangeListener(it)
-            }
-
-            timepickerTimeSet.setOnTimeChangedListener(timeChangedListener())
-            seekbarSound.setOnSeekBarChangeListener(seekBarChangeListener())
-        }
-    }
-
     private fun convWeekCheck(weekInfo:BooleanArray){
         arrayOf(
             binding.togglebuttonSelSun, binding.togglebuttonSelMon, binding.togglebuttonSelTue,
@@ -118,7 +114,7 @@ class SetAlarmActivity : AppCompatActivity() {
     }
 
     private fun setSoundSelect(s:Song){
-        selectedSong = s
+        selectedSound = s
         binding.textviewSoundTitle.text = s.title
         binding.switchSound.isChecked = s != null
     }
@@ -149,10 +145,18 @@ class SetAlarmActivity : AppCompatActivity() {
         binding.run {
             if(textviewVibrationTitle.text == resources.getString(R.string.textview_default_select) && switchVibration.isChecked){
                 switchVibration.isChecked = false
-                Toast.makeText(applicationContext, "선택된 진동이 없습니다.", Toast.LENGTH_SHORT).show()
+                toast("선택된 진동이 없습니다.")
                 Log.d("vibration selection null", "SetAlarmActivity/vibrationSwitchAction")
             }
         }
+    }
+
+    private fun soundSetAction(){
+        startForSoundResult.launch(
+            Intent(applicationContext, SoundSelectActivity::class.java).apply {
+                putExtra("selectedSound", if(selectedSound != null) selectedSound else null)
+            }
+        )
     }
 
     private fun vibrationSetAction(){
@@ -164,23 +168,60 @@ class SetAlarmActivity : AppCompatActivity() {
     }
 
     private fun repeatSetAction(){
-        val repeatSetDialogFragment:DialogFragment =
-//                        DialogFragment().show(supportFragmentManager, "dialog")
-//                        startActivity(Intent(applicationContext, ))
+        RepeatDialogFragment().apply {
+            setButtonClickListener(object:RepeatDialogFragment.OnCompleteListener{
+                override fun onButtonRepeatSetClicked(minute: String?, count: String?) {
+                    binding.apply {
+                        textviewRepeatTitle.text = String.format(getString(R.string.textview_repeat_text), minute, count)
+                        switchRepeat.isChecked = true
+                    }
+                }
+            })
+        }.show(supportFragmentManager, "SetRepeatDialog")
     }
 
     private fun alarmSaveAction(){
-        Toast.makeText(applicationContext, "save!!!", Toast.LENGTH_SHORT).show()
+        toast("save!!!")
         finish()
     }
 
     private fun clickDefaultAction(v:View?){
-        Log.e("|||null listener error", "${v.toString()}")
-        Toast.makeText(applicationContext, "클릭 오류!\n관리자에게 문의해주세요.", Toast.LENGTH_SHORT).show()
+        Log.e("|||null listener error", v.toString())
+        toast("error")
     }
 
-    // ===== 리스너 =====
-    inner class clickListener:View.OnClickListener{
+    private fun repeatSwitchAction(){
+
+    }
+
+    private fun setTitleAction(){
+        val editText:EditText = EditText(applicationContext).apply {
+            text = binding.textviewNameTitle.text.let {
+                if(it == resources.getString(R.string.textview_default_select)) null
+                else it.toString().toEditable()
+            }
+        }
+        AlertDialog.Builder(this@SetAlarmActivity).apply {
+            setTitle(resources.getString(R.string.alarm_name))
+            setMessage("20자 이내로 알람 이름을 설정해주세요.")
+            setView(editText)
+            setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
+                if (editText.text.toString() == "") {
+                    binding.textviewNameTitle.text = resources.getString(R.string.textview_default_select)
+                    binding.switchName.isChecked = false
+                    toast("알람 제목을 설정하기 않았습니다.")
+                } else {
+                    binding.textviewNameTitle.text = pretreatmentAlarmTitle(editText.text.toString())
+                    binding.switchName.isChecked = true
+                    Log.d("|||text len", binding.textviewNameTitle.text.length.toString())
+                }
+            }
+        }.show()
+    }
+
+
+    // ===== listener =====
+    inner class ClickListener:View.OnClickListener{
         override fun onClick(v: View?) {
             binding.run {
                 when(v?.id){
@@ -190,21 +231,22 @@ class SetAlarmActivity : AppCompatActivity() {
                     buttonTimeAll.id -> convWeekCheck(booleanArrayOf(true, true, true, true, true, true, true))
                     buttonTimeWeekday.id -> convWeekCheck(booleanArrayOf(false, true, true, true, true, true, false))
                     buttonTimeWeekend.id -> convWeekCheck(booleanArrayOf(true, false, false, false, false, false, true))
-                    constraintNameSet.id -> setTitleDialog()
-                    constraintSoundSet.id -> startForSoundResult.launch(Intent(applicationContext, SoundSelectActivity::class.java))
+                    constraintNameSet.id -> setTitleAction()
+                    constraintSoundSet.id -> soundSetAction()
                     constraintVibrationSet.id -> vibrationSetAction()
                     constraintRepeatSet.id -> repeatSetAction()
                     switchVibration.id -> vibrationSwitchAction()
+                    switchRepeat.id -> repeatSwitchAction()
                     else -> clickDefaultAction(v)
                 }
             }
         }
     }
 
-    inner class checkedChangeListener:CompoundButton.OnCheckedChangeListener{
+    inner class CheckedChangeListener:CompoundButton.OnCheckedChangeListener{
         override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
             when{
-                buttonView == null -> Toast.makeText(applicationContext, "Click listener error! please contact app manager!", Toast.LENGTH_SHORT).show()
+                buttonView == null -> toast("error")
                 buttonView.text == "일" && !isChecked -> buttonView.setTextColor(ContextCompat.getColor(applicationContext, R.color.red))
                 buttonView.text == "토" && !isChecked -> buttonView.setTextColor(ContextCompat.getColor(applicationContext, R.color.blue))
                 isChecked -> buttonView.setTextColor(ContextCompat.getColor(applicationContext, R.color.main))
@@ -214,7 +256,7 @@ class SetAlarmActivity : AppCompatActivity() {
         }
     }
 
-    inner class seekBarChangeListener:SeekBar.OnSeekBarChangeListener{
+    inner class SeekBarChangeListener:SeekBar.OnSeekBarChangeListener{
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             (getSystemService(AUDIO_SERVICE) as AudioManager).apply {
                 setStreamVolume(STREAM_RING, progress, 0)
@@ -223,13 +265,13 @@ class SetAlarmActivity : AppCompatActivity() {
 
         override fun onStartTrackingTouch(seekBar: SeekBar) {
             try {
-                if(selectedSong == null){
-                    Toast.makeText(applicationContext, "설정된 소리가 없습니다.", Toast.LENGTH_SHORT).show()
+                if(selectedSound == null){
+                    toast("설정된 소리가 없습니다.")
                     return
                 }
                 mediaPlayer = MediaPlayer()
                 mediaPlayer.apply {
-                    setDataSource(applicationContext, Uri.parse(selectedSong!!.uri))
+                    setDataSource(applicationContext, Uri.parse(selectedSound!!.uri))
                     setAudioAttributes(AudioAttributes.Builder().setLegacyStreamType(STREAM_RING).build())
                     isLooping = true
                     prepare()
@@ -254,44 +296,33 @@ class SetAlarmActivity : AppCompatActivity() {
         }
     }
 
-    inner class timeChangedListener:TimePicker.OnTimeChangedListener{
+    inner class TimeChangedListener:TimePicker.OnTimeChangedListener{
         override fun onTimeChanged(v: TimePicker?, hourOfDay: Int, minute: Int) {
             binding.textviewTopTime.text = convTimeToString(hourOfDay, minute)
         }
     }
 
-    // ===== 다이얼로그 =====
-    private fun setTitleDialog(){
-        val editText:EditText = EditText(applicationContext).apply {
-            text = binding.textviewNameTitle.text.let {
-                if(it == resources.getString(R.string.textview_default_select)) null
-                else it.toString().toEditable()
-            }
-        }
-        AlertDialog.Builder(this@SetAlarmActivity).apply {
-            setTitle(resources.getString(R.string.alarm_name))
-            setMessage("20자 이내로 알람 이름을 설정해주세요.")
-            setView(editText)
-            setPositiveButton(resources.getString(R.string.ok), DialogInterface.OnClickListener { _, _ ->
-                if(editText.text.toString() == ""){
-                    binding.textviewNameTitle.text = resources.getString(R.string.textview_default_select)
-                    binding.switchName.isChecked = false
-                    Toast.makeText(applicationContext, "알람 제목을 설정하지 않았습니다.", Toast.LENGTH_SHORT).show()
-                }else{
-                    binding.textviewNameTitle.text = pretreatmentAlarmTitle(editText.text.toString())
-                    binding.switchName.isChecked = true
-                    Log.d("|||text len", binding.textviewNameTitle.text.length.toString())
-                }
-            })
-        }.show()
-    }
 
-    // ===== 엑티비티 결과 =====
+    // ===== activity result =====
     private val startForSoundResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result: ActivityResult ->
         when(result.resultCode){
             RESULT_OK -> {
-                val intent = result.data
-                Toast.makeText(applicationContext, "sound result ok", Toast.LENGTH_LONG).show()
+                selectedSound = result.data?.getSerializableExtra("selectedSound") as Song
+                if(selectedSound == null){
+                    binding.switchSound.isChecked = false
+                    Log.e("sound is null", "SetAlarmActivity/startForSoundResult")
+
+                    toast("error")
+                }else{
+                    binding.apply {
+                        textviewSoundTitle.text = selectedSound!!.title
+                        switchSound.isChecked = true
+                    }
+                    toast("success")
+                }
+            }
+            RESULT_CANCELED -> {
+                Log.d("sound set canceled", "SetAlarmActivity/startForSoundResult")
             }
         }
     }
@@ -303,13 +334,13 @@ class SetAlarmActivity : AppCompatActivity() {
                 if(selectedVibration == null){
                     binding.switchVibration.isChecked = false
                     Log.e("vibration is null", "SetAlarmActivity/startForVibrationResult")
-                    Toast.makeText(applicationContext, "진동 설정 오류!\n관리자에게 문의하세요.", Toast.LENGTH_SHORT).show()
+                    toast("error")
                 }else{
-                    binding.run {
+                    binding.apply {
                         textviewVibrationTitle.text = selectedVibration!!.name
                         switchVibration.isChecked = true
                     }
-                    Toast.makeText(applicationContext, "설정 완료", Toast.LENGTH_SHORT).show()
+                    toast("success")
                 }
             }
             RESULT_CANCELED -> {
@@ -318,15 +349,20 @@ class SetAlarmActivity : AppCompatActivity() {
         }
     }
 
-    // ===== 확장 =====
-    private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
+    // ===== extension function =====
+    private fun String.toEditable() = Editable.Factory.getInstance().newEditable(this)
 
-    // ===== 테스트용 함수 =====
+    // ===== test function =====
     private fun toast(s:String){
-        Toast.makeText(applicationContext, s, Toast.LENGTH_SHORT).show()
+        val str = when(s){
+            "success" -> getString(R.string.setting_complete)
+            "error" -> getString(R.string.setting_error)
+            else -> s
+        }
+        Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
     }
 
-    // ===== 준비중 =====
+    // ===== getting ready =====
 //    private fun setCalendarDialog(){
 //        var listener = DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
 //            val test = "${i}년 ${i2 + 1}월 ${i3}일 ${SimpleDateFormat("EEEE").format(Date(i, i2, i3-1))}"
